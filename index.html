@@ -12,6 +12,16 @@ body {
     overflow: hidden;
 }
 
+/* Page animation */
+.fade-in {
+    animation: fadeIn 1.5s ease;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: scale(0.95);}
+    to {opacity: 1; transform: scale(1);}
+}
+
 .container {
     display: flex;
     height: 100vh;
@@ -24,6 +34,12 @@ body {
 
 h1 {
     font-size: 3em;
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    from {text-shadow: 0 0 10px white;}
+    to {text-shadow: 0 0 25px #ff6b81;}
 }
 
 button {
@@ -34,6 +50,11 @@ button {
     border: none;
     cursor: pointer;
     margin-top: 20px;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.1);
 }
 
 .hidden {
@@ -46,6 +67,19 @@ button {
     padding: 25px;
     border-radius: 20px;
     width: 320px;
+    animation: fadeIn 1s ease;
+}
+
+/* Image zoom animation */
+.photo {
+    width: 100%;
+    border-radius: 15px;
+    animation: zoom 6s infinite alternate;
+}
+
+@keyframes zoom {
+    from {transform: scale(1);}
+    to {transform: scale(1.1);}
 }
 
 .message {
@@ -55,11 +89,17 @@ button {
     min-height: 60px;
 }
 
-/* Photo */
-.photo {
-    width: 100%;
-    border-radius: 15px;
-    margin-top: 10px;
+/* Floating hearts */
+.heart {
+    position: fixed;
+    bottom: -10px;
+    color: red;
+    animation: floatUp 6s linear infinite;
+}
+
+@keyframes floatUp {
+    from {transform: translateY(0);}
+    to {transform: translateY(-100vh);}
 }
 
 /* Confetti */
@@ -76,21 +116,16 @@ canvas {
 
 <canvas id="confetti"></canvas>
 
-<!-- Page 1 -->
-<div id="page1" class="container">
+<div id="page1" class="container fade-in">
     <h1>🎉 Happy Birthday ❤️</h1>
-    <p>You mean more than words can say...</p>
-    <button onclick="goNext()">Open Your Surprise 🎁</button>
+    <p>Something special is waiting...</p>
+    <button onclick="goNext()">Open 🎁</button>
 </div>
 
-<!-- Page 2 -->
 <div id="page2" class="container hidden">
-    <div class="card">
-
-        <img id="photo" class="photo" src="https://picsum.photos/300/200">
-
+    <div class="card fade-in">
+        <img id="photo" class="photo" src="">
         <div id="msg" class="message"></div>
-
         <button onclick="nextSlide()">Next ➡️</button>
     </div>
 </div>
@@ -99,22 +134,10 @@ canvas {
 
 <script>
 let slides = [
-    {
-        img: "https://picsum.photos/id/1018/300/200",
-        text: "From the moment you came into my life..."
-    },
-    {
-        img: "https://picsum.photos/id/1015/300/200",
-        text: "Everything started feeling a little more special..."
-    },
-    {
-        img: "https://picsum.photos/id/1025/300/200",
-        text: "Your smile, your presence, your energy..."
-    },
-    {
-        img: "https://picsum.photos/id/1035/300/200",
-        text: "Today is all about you. Happy Birthday "
-    }
+    {img: "https://picsum.photos/id/1018/300/200", text: "You walked into my life..." },
+    {img: "https://picsum.photos/id/1015/300/200", text: "And everything changed..." },
+    {img: "https://picsum.photos/id/1025/300/200", text: "Your smile means everything..." },
+    {img: "https://picsum.photos/id/1035/300/200", text: "Happy Birthday to the most special person ❤️" }
 ];
 
 let index = 0;
@@ -122,8 +145,10 @@ let index = 0;
 function goNext() {
     document.getElementById("page1").classList.add("hidden");
     document.getElementById("page2").classList.remove("hidden");
+
     document.getElementById("music").play();
     startConfetti();
+    createHearts();
     showSlide();
 }
 
@@ -137,7 +162,7 @@ function nextSlide() {
     showSlide();
 }
 
-/* Typing effect */
+/* Typing animation */
 function typeText(text) {
     let i = 0;
     let msg = document.getElementById("msg");
@@ -147,7 +172,7 @@ function typeText(text) {
         msg.innerHTML += text.charAt(i);
         i++;
         if (i >= text.length) clearInterval(interval);
-    }, 40);
+    }, 35);
 }
 
 /* Confetti */
@@ -158,7 +183,7 @@ function startConfetti() {
     canvas.height = window.innerHeight;
 
     let pieces = [];
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 120; i++) {
         pieces.push({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
@@ -178,6 +203,22 @@ function startConfetti() {
     }
 
     update();
+}
+
+/* Floating hearts */
+function createHearts() {
+    setInterval(() => {
+        let heart = document.createElement("div");
+        heart.innerHTML = "❤️";
+        heart.className = "heart";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (Math.random() * 20 + 10) + "px";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 6000);
+    }, 300);
 }
 </script>
 
