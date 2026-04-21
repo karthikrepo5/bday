@@ -1,144 +1,255 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+
+<html lang="en">
+
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.4">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-  </style>
+
+<meta charset="UTF-8">
+
+<title>Birthday Surprise 🎂</title>
+
+
+
+<style>
+
+body {
+
+    margin: 0;
+
+    font-family: 'Poppins', sans-serif;
+
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+
+    overflow: hidden;
+
+}
+
+
+
+.container {
+
+    display: flex;
+
+    height: 100vh;
+
+    justify-content: center;
+
+    align-items: center;
+
+    flex-direction: column;
+
+    text-align: center;
+
+    color: white;
+
+}
+
+
+
+h1 {
+
+    font-size: 3em;
+
+    animation: fadeIn 2s ease-in-out;
+
+}
+
+
+
+button {
+
+    padding: 12px 25px;
+
+    border: none;
+
+    border-radius: 25px;
+
+    background: white;
+
+    color: #ff6b81;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+    margin-top: 20px;
+
+    transition: 0.3s;
+
+}
+
+
+
+button:hover {
+
+    transform: scale(1.1);
+
+}
+
+
+
+.hidden {
+
+    display: none;
+
+}
+
+
+
+.card {
+
+    background: white;
+
+    color: #333;
+
+    padding: 30px;
+
+    border-radius: 20px;
+
+    width: 300px;
+
+    animation: slideUp 1s ease;
+
+}
+
+
+
+select {
+
+    margin-top: 15px;
+
+    padding: 10px;
+
+    border-radius: 10px;
+
+}
+
+
+
+.message {
+
+    margin-top: 20px;
+
+    font-size: 18px;
+
+    color: #ff6b81;
+
+}
+
+
+
+@keyframes fadeIn {
+
+    from {opacity: 0;}
+
+    to {opacity: 1;}
+
+}
+
+
+
+@keyframes slideUp {
+
+    from {transform: translateY(50px); opacity: 0;}
+
+    to {transform: translateY(0); opacity: 1;}
+
+}
+
+</style>
+
 </head>
+
+
+
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="en"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1">&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1">&lt;title&gt;Birthday Surprise 🎂&lt;/title&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;style&gt;</p>
-<p class="p1">body {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin: 0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family: 'Poppins', sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: linear-gradient(135deg, #ff9a9e, #fad0c4);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>overflow: hidden;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">.container {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>height: 100vh;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>justify-content: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>flex-direction: column;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: white;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">h1 {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 3em;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>animation: fadeIn 2s ease-in-out;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">button {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 12px 25px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border: none;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 25px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: white;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: #ff6b81;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 16px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>cursor: pointer;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-top: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transition: 0.3s;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">button:hover {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transform: scale(1.1);</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">.hidden {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: none;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">.card {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: white;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: #333;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 30px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>width: 300px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>animation: slideUp 1s ease;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">select {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-top: 15px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 10px;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">.message {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-top: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 18px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: #ff6b81;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">@keyframes fadeIn {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>from {opacity: 0;}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>to {opacity: 1;}</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">@keyframes slideUp {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>from {transform: translateY(50px); opacity: 0;}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>to {transform: translateY(0); opacity: 1;}</p>
-<p class="p1">}</p>
-<p class="p1">&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- Page 1 --&gt;</p>
-<p class="p1">&lt;div id="page1" class="container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h1&gt;🎉 Happy Birthday! 🎂&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p&gt;A small surprise is waiting for you 💖&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;button onclick="goNext()"&gt;Next ➡️&lt;/button&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- Page 2 --&gt;</p>
-<p class="p1">&lt;div id="page2" class="container hidden"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2&gt;💌 Special Message&lt;/h2&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;select onchange="showMessage(this.value)"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;option value=""&gt;Select a Date&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;option value="d1"&gt;Date 1&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;option value="d2"&gt;Date 2&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;option value="d3"&gt;Date 3&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;option value="d4"&gt;Date 4&lt;/option&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/select&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="msg" class="message"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;script&gt;</p>
-<p class="p1">function goNext() {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById("page1").classList.add("hidden");</p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById("page2").classList.remove("hidden");</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">function showMessage(val) {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>let messages = {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>d1: "💖 This day was the beginning of something special...",</p>
-<p class="p1"><span class="Apple-converted-space">        </span>d2: "🌸 A memory I will always cherish!",</p>
-<p class="p1"><span class="Apple-converted-space">        </span>d3: "✨ You made this day unforgettable!",</p>
-<p class="p1"><span class="Apple-converted-space">        </span>d4: "🎉 And today, I celebrate YOU!"</p>
-<p class="p1"><span class="Apple-converted-space">    </span>};</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById("msg").innerText = messages[val] || "";</p>
-<p class="p1">}</p>
-<p class="p1">&lt;/script&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+
+
+
+<!-- Page 1 -->
+
+<div id="page1" class="container">
+
+    <h1>🎉 Happy Birthday! 🎂</h1>
+
+    <p>A small surprise is waiting for you 💖</p>
+
+    <button onclick="goNext()">Next ➡️</button>
+
+</div>
+
+
+
+<!-- Page 2 -->
+
+<div id="page2" class="container hidden">
+
+    <div class="card">
+
+        <h2>💌 Special Message</h2>
+
+
+
+        <select onchange="showMessage(this.value)">
+
+            <option value="">Select a Date</option>
+
+            <option value="d1">Date 1</option>
+
+            <option value="d2">Date 2</option>
+
+            <option value="d3">Date 3</option>
+
+            <option value="d4">Date 4</option>
+
+        </select>
+
+
+
+        <div id="msg" class="message"></div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+function goNext() {
+
+    document.getElementById("page1").classList.add("hidden");
+
+    document.getElementById("page2").classList.remove("hidden");
+
+}
+
+
+
+function showMessage(val) {
+
+    let messages = {
+
+        d1: "💖 This day was the beginning of something special...",
+
+        d2: "🌸 A memory I will always cherish!",
+
+        d3: "✨ You made this day unforgettable!",
+
+        d4: "🎉 And today, I celebrate YOU!"
+
+    };
+
+
+
+    document.getElementById("msg").innerText = messages[val] || "";
+
+}
+
+</script>
+
+
+
 </body>
+
 </html>
