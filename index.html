@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Birthday Surprise 🎂</title>
+<title>Birthday Surprise 💖</title>
 
 <style>
 body {
@@ -34,11 +34,6 @@ button {
     border: none;
     cursor: pointer;
     margin-top: 20px;
-    transition: 0.3s;
-}
-
-button:hover {
-    transform: scale(1.1);
 }
 
 .hidden {
@@ -48,15 +43,23 @@ button:hover {
 .card {
     background: white;
     color: #333;
-    padding: 30px;
+    padding: 25px;
     border-radius: 20px;
-    width: 300px;
+    width: 320px;
 }
 
 .message {
-    margin-top: 20px;
-    font-size: 18px;
+    margin-top: 15px;
+    font-size: 16px;
     color: #ff6b81;
+    min-height: 60px;
+}
+
+/* Photo */
+.photo {
+    width: 100%;
+    border-radius: 15px;
+    margin-top: 10px;
 }
 
 /* Confetti */
@@ -75,52 +78,79 @@ canvas {
 
 <!-- Page 1 -->
 <div id="page1" class="container">
-    <h1>🎉 Happy Birthday 💖</h1>
-    <p>I have something special for you ✨</p>
-    <button onclick="goNext()">Open Surprise 🎁</button>
+    <h1>🎉 Happy Birthday ❤️</h1>
+    <p>You mean more than words can say...</p>
+    <button onclick="goNext()">Open Your Surprise 🎁</button>
 </div>
 
 <!-- Page 2 -->
 <div id="page2" class="container hidden">
     <div class="card">
-        <h2>💌 Choose a Memory</h2>
 
-        <select onchange="showMessage(this.value)">
-            <option value="">Select a Date</option>
-            <option value="d1">Jan 1</option>
-            <option value="d2">Feb 14</option>
-            <option value="d3">Jun 10</option>
-            <option value="d4">Today ❤️</option>
-        </select>
+        <img id="photo" class="photo" src="https://picsum.photos/300/200">
 
         <div id="msg" class="message"></div>
+
+        <button onclick="nextSlide()">Next ➡️</button>
     </div>
 </div>
 
-<!-- Music -->
-<audio id="music" src="https://www.bensound.com/bensound-music/bensound-happyrock.mp3"></audio>
+<audio id="music" src="https://www.bensound.com/bensound-music/bensound-romantic.mp3"></audio>
 
 <script>
+let slides = [
+    {
+        img: "https://picsum.photos/id/1018/300/200",
+        text: "From the moment you came into my life..."
+    },
+    {
+        img: "https://picsum.photos/id/1015/300/200",
+        text: "Everything started feeling a little more special..."
+    },
+    {
+        img: "https://picsum.photos/id/1025/300/200",
+        text: "Your smile, your presence, your energy..."
+    },
+    {
+        img: "https://picsum.photos/id/1035/300/200",
+        text: "Today is all about you. Happy Birthday ❤️"
+    }
+];
+
+let index = 0;
+
 function goNext() {
     document.getElementById("page1").classList.add("hidden");
     document.getElementById("page2").classList.remove("hidden");
-
     document.getElementById("music").play();
     startConfetti();
+    showSlide();
 }
 
-function showMessage(val) {
-    let messages = {
-        d1: "💖 The day everything started...",
-        d2: "🌹 A beautiful memory with you!",
-        d3: "✨ You made this day magical!",
-        d4: "🎂 Today is all about YOU!"
-    };
-
-    document.getElementById("msg").innerText = messages[val] || "";
+function showSlide() {
+    document.getElementById("photo").src = slides[index].img;
+    typeText(slides[index].text);
 }
 
-/* Simple Confetti */
+function nextSlide() {
+    index = (index + 1) % slides.length;
+    showSlide();
+}
+
+/* Typing effect */
+function typeText(text) {
+    let i = 0;
+    let msg = document.getElementById("msg");
+    msg.innerHTML = "";
+
+    let interval = setInterval(() => {
+        msg.innerHTML += text.charAt(i);
+        i++;
+        if (i >= text.length) clearInterval(interval);
+    }, 40);
+}
+
+/* Confetti */
 function startConfetti() {
     const canvas = document.getElementById('confetti');
     const ctx = canvas.getContext('2d');
@@ -132,7 +162,7 @@ function startConfetti() {
         pieces.push({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
-            size: Math.random() * 10,
+            size: Math.random() * 8,
             speed: Math.random() * 3 + 1
         });
     }
@@ -142,7 +172,6 @@ function startConfetti() {
         pieces.forEach(p => {
             p.y += p.speed;
             if (p.y > canvas.height) p.y = 0;
-
             ctx.fillRect(p.x, p.y, p.size, p.size);
         });
         requestAnimationFrame(update);
