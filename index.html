@@ -10,21 +10,30 @@
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #ffdde1, #ee9ca7);
     overflow: hidden;
+    transition: background 1s ease;
 }
 
-/* Premium Text */
+/* 🌈 Dynamic backgrounds */
+.bg1 { background: linear-gradient(135deg, #ff9a9e, #fecfef); }
+.bg2 { background: linear-gradient(135deg, #fbc2eb, #a6c1ee); }
+.bg3 { background: linear-gradient(135deg, #ffecd2, #fcb69f); }
+.bg4 { background: linear-gradient(135deg, #a1c4fd, #c2e9fb); }
+
+/* 💎 Premium Birthday Text */
 .birthday-text {
     font-family: 'Great Vibes', cursive;
-    font-size: 4em;
-    background: linear-gradient(45deg, #ffffff, #ffb6c1, #ffffff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-size: 4.5em;
+    color: #ffffff;
+    text-shadow:
+        0 0 10px rgba(255,255,255,0.8),
+        0 0 20px rgba(255,105,135,0.8),
+        0 0 30px rgba(255,105,135,0.6);
     animation: fadeSlide 2s ease forwards;
     opacity: 0;
 }
 
+/* ✨ animation */
 @keyframes fadeSlide {
     from {opacity: 0; transform: translateY(30px);}
     to {opacity: 1; transform: translateY(0);}
@@ -44,10 +53,15 @@ button {
     padding: 12px 25px;
     border-radius: 25px;
     background: white;
-    color: #e75480;
+    color: #ff4d6d;
     border: none;
     cursor: pointer;
     margin-top: 20px;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.1);
 }
 
 .hidden {
@@ -55,11 +69,12 @@ button {
 }
 
 .card {
-    background: white;
+    background: rgba(255,255,255,0.9);
     color: #333;
     padding: 25px;
     border-radius: 20px;
     width: 320px;
+    backdrop-filter: blur(10px);
 }
 
 .photo {
@@ -76,36 +91,25 @@ button {
 .message {
     margin-top: 15px;
     font-size: 16px;
-    color: #e75480;
+    color: #ff4d6d;
 }
 
-/* 🌸 Floating Flowers */
+/* 🌸 flowers */
 .flower {
     position: fixed;
     bottom: -20px;
     font-size: 20px;
     animation: floatUp 8s linear infinite;
-    opacity: 0.8;
 }
 
 @keyframes floatUp {
     from {transform: translateY(0) rotate(0deg);}
     to {transform: translateY(-100vh) rotate(360deg);}
 }
-
-/* ✨ Fancy particles */
-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-}
 </style>
 </head>
 
-<body>
-
-<canvas id="particles"></canvas>
+<body class="bg1">
 
 <!-- Page 1 -->
 <div id="page1" class="container">
@@ -123,14 +127,12 @@ canvas {
     </div>
 </div>
 
-<audio id="music" src="https://www.bensound.com/bensound-music/bensound-slowmotion.mp3"></audio>
-
 <script>
 let slides = [
-    {img: "https://picsum.photos/id/1018/300/200", text: "You bring so much joy into this world..." },
-    {img: "https://picsum.photos/id/1015/300/200", text: "Every moment with you feels special..." },
-    {img: "https://picsum.photos/id/1025/300/200", text: "Your presence is truly a gift..." },
-    {img: "https://picsum.photos/id/1035/300/200", text: "Wishing you endless happiness 🌸" }
+    {img: "https://picsum.photos/id/1018/300/200", text: "You bring so much joy into this world...", bg:"bg1"},
+    {img: "https://picsum.photos/id/1015/300/200", text: "Every moment with you feels special...", bg:"bg2"},
+    {img: "https://picsum.photos/id/1025/300/200", text: "Your presence is truly a gift...", bg:"bg3"},
+    {img: "https://picsum.photos/id/1035/300/200", text: "Wishing you endless happiness 🌸", bg:"bg4"}
 ];
 
 let index = 0;
@@ -138,14 +140,12 @@ let index = 0;
 function goNext() {
     document.getElementById("page1").classList.add("hidden");
     document.getElementById("page2").classList.remove("hidden");
-
-    document.getElementById("music").play();
-    startParticles();
     createFlowers();
     showSlide();
 }
 
 function showSlide() {
+    document.body.className = slides[index].bg;
     document.getElementById("photo").src = slides[index].img;
     typeText(slides[index].text);
 }
@@ -155,7 +155,7 @@ function nextSlide() {
     showSlide();
 }
 
-/* Typing */
+/* typing */
 function typeText(text) {
     let i = 0;
     let msg = document.getElementById("msg");
@@ -168,41 +168,7 @@ function typeText(text) {
     }, 40);
 }
 
-/* ✨ Fancy particles */
-function startParticles() {
-    const canvas = document.getElementById('particles');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    let particles = [];
-    for (let i = 0; i < 100; i++) {
-        particles.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            size: Math.random() * 3,
-            speed: Math.random() * 1 + 0.5
-        });
-    }
-
-    function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => {
-            p.y -= p.speed;
-            if (p.y < 0) p.y = canvas.height;
-
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-            ctx.fillStyle = "rgba(255, 215, 0, 0.8)";
-            ctx.fill();
-        });
-        requestAnimationFrame(draw);
-    }
-
-    draw();
-}
-
-/* 🌸 Flowers */
+/* flowers */
 function createFlowers() {
     setInterval(() => {
         let flower = document.createElement("div");
