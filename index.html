@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <title>Birthday Surprise 💖</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+
 <style>
 body {
     margin: 0;
@@ -12,14 +14,28 @@ body {
     overflow: hidden;
 }
 
-/* Page animation */
-.fade-in {
-    animation: fadeIn 1.5s ease;
+/* Premium Birthday Text */
+.birthday-text {
+    font-family: 'Great Vibes', cursive;
+    font-size: 4em;
+    background: linear-gradient(45deg, #ffffff, #ff6b81, #ffffff);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientMove 4s ease infinite, fadeSlide 2s ease forwards;
+    opacity: 0;
+    text-shadow: 0 0 20px rgba(255,255,255,0.6);
 }
 
-@keyframes fadeIn {
-    from {opacity: 0; transform: scale(0.95);}
-    to {opacity: 1; transform: scale(1);}
+@keyframes gradientMove {
+    0% {background-position: 0%;}
+    50% {background-position: 100%;}
+    100% {background-position: 0%;}
+}
+
+@keyframes fadeSlide {
+    from {opacity: 0; transform: translateY(30px) scale(0.9);}
+    to {opacity: 1; transform: translateY(0) scale(1);}
 }
 
 .container {
@@ -32,16 +48,6 @@ body {
     color: white;
 }
 
-h1 {
-    font-size: 3em;
-    animation: glow 2s infinite alternate;
-}
-
-@keyframes glow {
-    from {text-shadow: 0 0 10px white;}
-    to {text-shadow: 0 0 25px #ff6b81;}
-}
-
 button {
     padding: 12px 25px;
     border-radius: 25px;
@@ -50,11 +56,6 @@ button {
     border: none;
     cursor: pointer;
     margin-top: 20px;
-    transition: 0.3s;
-}
-
-button:hover {
-    transform: scale(1.1);
 }
 
 .hidden {
@@ -67,10 +68,8 @@ button:hover {
     padding: 25px;
     border-radius: 20px;
     width: 320px;
-    animation: fadeIn 1s ease;
 }
 
-/* Image zoom animation */
 .photo {
     width: 100%;
     border-radius: 15px;
@@ -93,7 +92,6 @@ button:hover {
 .heart {
     position: fixed;
     bottom: -10px;
-    color: red;
     animation: floatUp 6s linear infinite;
 }
 
@@ -116,14 +114,16 @@ canvas {
 
 <canvas id="confetti"></canvas>
 
-<div id="page1" class="container fade-in">
-    <h1>🎉 Happy Birthday ❤️</h1>
-    <p>Something special is waiting...</p>
-    <button onclick="goNext()">Open 🎁</button>
+<!-- Page 1 -->
+<div id="page1" class="container">
+    <h1 class="birthday-text">Happy Birthday ❤️</h1>
+    <p>You mean more than words can say...</p>
+    <button onclick="goNext()">Open Your Surprise 🎁</button>
 </div>
 
+<!-- Page 2 -->
 <div id="page2" class="container hidden">
-    <div class="card fade-in">
+    <div class="card">
         <img id="photo" class="photo" src="">
         <div id="msg" class="message"></div>
         <button onclick="nextSlide()">Next ➡️</button>
@@ -134,10 +134,10 @@ canvas {
 
 <script>
 let slides = [
-    {img: "https://picsum.photos/id/1018/300/200", text: "You walked into my life..." },
-    {img: "https://picsum.photos/id/1015/300/200", text: "And everything changed..." },
-    {img: "https://picsum.photos/id/1025/300/200", text: "Your smile means everything..." },
-    {img: "https://picsum.photos/id/1035/300/200", text: "Happy Birthday to the most special person ❤️" }
+    {img: "https://picsum.photos/id/1018/300/200", text: "From the moment you came into my life..." },
+    {img: "https://picsum.photos/id/1015/300/200", text: "Everything became more beautiful..." },
+    {img: "https://picsum.photos/id/1025/300/200", text: "Your smile means everything to me..." },
+    {img: "https://picsum.photos/id/1035/300/200", text: "Today is all about you ❤️ Happy Birthday!" }
 ];
 
 let index = 0;
@@ -162,7 +162,7 @@ function nextSlide() {
     showSlide();
 }
 
-/* Typing animation */
+/* Typing effect */
 function typeText(text) {
     let i = 0;
     let msg = document.getElementById("msg");
@@ -205,7 +205,7 @@ function startConfetti() {
     update();
 }
 
-/* Floating hearts */
+/* Hearts */
 function createHearts() {
     setInterval(() => {
         let heart = document.createElement("div");
@@ -215,11 +215,22 @@ function createHearts() {
         heart.style.fontSize = (Math.random() * 20 + 10) + "px";
         document.body.appendChild(heart);
 
-        setTimeout(() => {
-            heart.remove();
-        }, 6000);
+        setTimeout(() => heart.remove(), 6000);
     }, 300);
 }
+
+/* Sparkles */
+setInterval(() => {
+    let sparkle = document.createElement("div");
+    sparkle.innerHTML = "✨";
+    sparkle.style.position = "fixed";
+    sparkle.style.left = Math.random() * 100 + "vw";
+    sparkle.style.top = Math.random() * 100 + "vh";
+    sparkle.style.fontSize = "20px";
+    document.body.appendChild(sparkle);
+
+    setTimeout(() => sparkle.remove(), 1500);
+}, 300);
 </script>
 
 </body>
