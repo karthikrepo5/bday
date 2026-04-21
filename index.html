@@ -1,255 +1,156 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
 <title>Birthday Surprise 🎂</title>
 
-
-
 <style>
-
 body {
-
     margin: 0;
-
     font-family: 'Poppins', sans-serif;
-
     background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-
     overflow: hidden;
-
 }
-
-
 
 .container {
-
     display: flex;
-
     height: 100vh;
-
     justify-content: center;
-
     align-items: center;
-
     flex-direction: column;
-
     text-align: center;
-
     color: white;
-
 }
-
-
 
 h1 {
-
     font-size: 3em;
-
-    animation: fadeIn 2s ease-in-out;
-
 }
-
-
 
 button {
-
     padding: 12px 25px;
-
-    border: none;
-
     border-radius: 25px;
-
     background: white;
-
     color: #ff6b81;
-
-    font-size: 16px;
-
+    border: none;
     cursor: pointer;
-
     margin-top: 20px;
-
     transition: 0.3s;
-
 }
-
-
 
 button:hover {
-
     transform: scale(1.1);
-
 }
-
-
 
 .hidden {
-
     display: none;
-
 }
-
-
 
 .card {
-
     background: white;
-
     color: #333;
-
     padding: 30px;
-
     border-radius: 20px;
-
     width: 300px;
-
-    animation: slideUp 1s ease;
-
 }
-
-
-
-select {
-
-    margin-top: 15px;
-
-    padding: 10px;
-
-    border-radius: 10px;
-
-}
-
-
 
 .message {
-
     margin-top: 20px;
-
     font-size: 18px;
-
     color: #ff6b81;
-
 }
 
-
-
-@keyframes fadeIn {
-
-    from {opacity: 0;}
-
-    to {opacity: 1;}
-
+/* Confetti */
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
 }
-
-
-
-@keyframes slideUp {
-
-    from {transform: translateY(50px); opacity: 0;}
-
-    to {transform: translateY(0); opacity: 1;}
-
-}
-
 </style>
-
 </head>
-
-
 
 <body>
 
-
+<canvas id="confetti"></canvas>
 
 <!-- Page 1 -->
-
 <div id="page1" class="container">
-
-    <h1>🎉 Happy Birthday! 🎂</h1>
-
-    <p>A small surprise is waiting for you 💖</p>
-
-    <button onclick="goNext()">Next ➡️</button>
-
+    <h1>🎉 Happy Birthday 💖</h1>
+    <p>I have something special for you ✨</p>
+    <button onclick="goNext()">Open Surprise 🎁</button>
 </div>
-
-
 
 <!-- Page 2 -->
-
 <div id="page2" class="container hidden">
-
     <div class="card">
-
-        <h2>💌 Special Message</h2>
-
-
+        <h2>💌 Choose a Memory</h2>
 
         <select onchange="showMessage(this.value)">
-
             <option value="">Select a Date</option>
-
-            <option value="d1">Date 1</option>
-
-            <option value="d2">Date 2</option>
-
-            <option value="d3">Date 3</option>
-
-            <option value="d4">Date 4</option>
-
+            <option value="d1">Jan 1</option>
+            <option value="d2">Feb 14</option>
+            <option value="d3">Jun 10</option>
+            <option value="d4">Today ❤️</option>
         </select>
 
-
-
         <div id="msg" class="message"></div>
-
     </div>
-
 </div>
 
-
+<!-- Music -->
+<audio id="music" src="https://www.bensound.com/bensound-music/bensound-happyrock.mp3"></audio>
 
 <script>
-
 function goNext() {
-
     document.getElementById("page1").classList.add("hidden");
-
     document.getElementById("page2").classList.remove("hidden");
 
+    document.getElementById("music").play();
+    startConfetti();
 }
-
-
 
 function showMessage(val) {
-
     let messages = {
-
-        d1: "💖 This day was the beginning of something special...",
-
-        d2: "🌸 A memory I will always cherish!",
-
-        d3: "✨ You made this day unforgettable!",
-
-        d4: "🎉 And today, I celebrate YOU!"
-
+        d1: "💖 The day everything started...",
+        d2: "🌹 A beautiful memory with you!",
+        d3: "✨ You made this day magical!",
+        d4: "🎂 Today is all about YOU!"
     };
 
-
-
     document.getElementById("msg").innerText = messages[val] || "";
-
 }
 
+/* Simple Confetti */
+function startConfetti() {
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let pieces = [];
+    for (let i = 0; i < 100; i++) {
+        pieces.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 10,
+            speed: Math.random() * 3 + 1
+        });
+    }
+
+    function update() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pieces.forEach(p => {
+            p.y += p.speed;
+            if (p.y > canvas.height) p.y = 0;
+
+            ctx.fillRect(p.x, p.y, p.size, p.size);
+        });
+        requestAnimationFrame(update);
+    }
+
+    update();
+}
 </script>
 
-
-
 </body>
-
 </html>
