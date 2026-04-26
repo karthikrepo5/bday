@@ -2,227 +2,1442 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Birthday Surprise 🌸</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Great+Vibes&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
-
+<title>Premium Cinematic Birthday Experience</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:ital,wght@0,300;0,500;1,300;1,500&display=swap" rel="stylesheet">
 <style>
-body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    overflow: hidden;
-    transition: background 1s ease;
+:root {
+    --gold: #c8960c;
+    --gold-light: #f0c040;
+    --gold-shine: #ffe08a;
+    --glass: rgba(255, 255, 255, 0.1);
+    --ice: #e8f4f8;
+    --ice-dim: rgba(200,230,240,0.15);
+    --silver: #b0c4cc;
 }
 
-/* Backgrounds */
-.bg1 { background: linear-gradient(135deg, #ff9a9e, #fecfef); }
-.bg2 { background: linear-gradient(135deg, #fbc2eb, #a6c1ee); }
-.bg3 { background: linear-gradient(135deg, #ffecd2, #fcb69f); }
-.bg4 { background: linear-gradient(135deg, #a1c4fd, #c2e9fb); }
+* { font-style: italic; }
+body { margin:0; overflow:hidden; background:black; font-family:'Poppins'; color:white; }
+.screen { position:absolute; inset:0; transition:1.5s cubic-bezier(0.4,0,0.2,1); display:flex; align-items:center; justify-content:center; }
+.hidden { opacity:0; pointer-events:none; }
 
-/* Layout */
-.container {
-    display: flex;
-    height: 100vh;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    text-align: center;
-    color: white;
+/* ===== SCREEN 1 BACKGROUND ===== */
+#screen1 {
+    overflow:hidden;
+    background: radial-gradient(ellipse at 50% 50%, rgba(30,20,10,0.8) 0%, black 100%);
 }
 
-/* Date */
-.date-text {
-    font-family: 'Playfair Display', serif;
-    font-size: 3em;
+#screen1::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 20% 30%, rgba(200,150,12,0.20) 0%, transparent 40%),
+        radial-gradient(ellipse at 80% 70%, rgba(200,150,12,0.15) 0%, transparent 35%);
+    animation: bgPulse 8s ease-in-out infinite alternate;
+    z-index: 0;
+    will-change: opacity;
+}
+
+@keyframes bgPulse {
+    0% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+/* ===== LIGHTWEIGHT GOLD PARTICLES ===== */
+.gold-particle {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--gold-shine);
+    pointer-events: none;
+    animation: particleFade ease-in-out infinite;
+    will-change: opacity, transform;
+}
+
+@keyframes particleFade {
+    0%, 100% { opacity: 0; transform: translateY(0) scale(0.5); }
+    50% { opacity: 0.6; transform: translateY(-15px) scale(1); }
+}
+
+/* ===== BACKGROUND WORDS — reduced size & simplified animation ===== */
+.bg-word {
+    position: absolute;
+    font-family: 'Playfair Display';
+    font-style: italic;
+    color: rgba(200,150,12,0.18);
+    pointer-events: none;
+    white-space: nowrap;
+    animation: wordFloat linear infinite;
+    font-weight: 700;
     letter-spacing: 2px;
-    animation: fadeUp 2s ease forwards;
+    will-change: transform, opacity;
 }
 
-/* Question */
-.question {
-    font-size: 4em;
-    margin-top: 10px;
-    animation: pulse 1.5s infinite;
+@keyframes wordFloat {
+    0% {
+        transform: translateY(110vh) rotate(-15deg);
+        opacity: 0;
+        filter: blur(6px);
+    }
+    10% {
+        opacity: 0.6;
+        filter: blur(0px);
+    }
+    85% {
+        opacity: 0.6;
+        filter: blur(0px);
+    }
+    100% {
+        transform: translateY(-20vh) rotate(10deg);
+        opacity: 0;
+        filter: blur(6px);
+    }
 }
 
-/* Hint */
-.hint {
-    margin-top: 10px;
-    opacity: 0.8;
+/* ===== COUNTDOWN ===== */
+#countdown {
+    font-size: 200px;
+    font-family: 'Playfair Display';
+    font-style: italic;
+    font-weight: 900;
+    background: linear-gradient(135deg, #fff5e1, var(--gold-shine), var(--gold-light), var(--gold), #c8960c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    z-index: 2;
+    filter: drop-shadow(0 0 30px rgba(200,150,12,0.8));
+    letter-spacing: -5px;
+    will-change: transform, opacity;
 }
 
-/* Button */
-button {
-    padding: 12px 25px;
-    border-radius: 25px;
-    background: white;
-    color: #ff4d6d;
+.pulse-anim {
+    animation: countdownPulse 0.9s ease-out forwards !important;
+}
+
+@keyframes countdownPulse {
+    0%   { transform: scale(1.3); opacity: 0.5; }
+    65%  { transform: scale(0.97); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.9; }
+}
+
+/* ===== CINEMATIC START BUTTON ===== */
+#startBtn {
+    padding: 24px 70px;
+    background: transparent;
     border: none;
+    color: transparent;
+    border-radius: 60px;
     cursor: pointer;
-    margin-top: 20px;
-}
-
-/* Card */
-.card {
-    background: rgba(255,255,255,0.9);
-    color: #333;
-    padding: 25px;
-    border-radius: 20px;
-    width: 320px;
-    backdrop-filter: blur(10px);
-}
-
-/* Image */
-.photo {
-    width: 100%;
-    border-radius: 15px;
-    animation: zoom 6s infinite alternate;
-}
-
-/* Message */
-.message {
-    margin-top: 15px;
-    font-size: 16px;
-    color: #ff4d6d;
-    min-height: 60px;
-}
-
-/* Final Birthday Text */
-.final-text {
-    font-family: 'Great Vibes', cursive;
-    font-size: 4em;
-    color: white;
-    text-shadow: 0 0 20px rgba(255,255,255,0.8),
-                 0 0 40px rgba(255,105,135,0.8);
-    animation: fadeUp 2s ease;
-}
-
-/* Animations */
-@keyframes fadeUp {
-    from {opacity: 0; transform: translateY(20px);}
-    to {opacity: 1; transform: translateY(0);}
-}
-
-@keyframes pulse {
-    0% {opacity: 0.5; transform: scale(1);}
-    50% {opacity: 1; transform: scale(1.2);}
-    100% {opacity: 0.5; transform: scale(1);}
-}
-
-@keyframes zoom {
-    from {transform: scale(1);}
-    to {transform: scale(1.1);}
-}
-
-/* Flowers */
-.flower {
-    position: fixed;
-    bottom: -20px;
+    letter-spacing: 14px;
+    text-transform: uppercase;
+    font-family: 'Playfair Display';
     font-size: 20px;
-    animation: floatUp 8s linear infinite;
+    font-weight: 700;
+    font-style: italic;
+    position: relative;
+    z-index: 3;
+    opacity: 0;
+    animation: btnCinematicEntry 2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+    will-change: transform, opacity;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-@keyframes floatUp {
-    from {transform: translateY(0) rotate(0deg);}
-    to {transform: translateY(-100vh) rotate(360deg);}
+@keyframes btnCinematicEntry {
+    0%   { opacity: 0; transform: scale(0.4) translateY(60px); filter: blur(20px); }
+    40%  { opacity: 1; filter: blur(0px); }
+    70%  { transform: scale(1.06) translateY(-6px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
 }
 
-.hidden { display: none; }
+/* rotating conic gradient ring */
+#startBtn::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 70px;
+    background: conic-gradient(
+        from 0deg,
+        var(--gold-shine),
+        var(--gold-light),
+        #fff5c0,
+        var(--gold),
+        var(--gold-shine),
+        var(--gold-light),
+        var(--gold-shine)
+    );
+    animation: ringRotate 3s linear infinite, ringBreathe 2s ease-in-out infinite alternate;
+    z-index: -2;
+    filter: blur(2px);
+}
 
+@keyframes ringRotate {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+@keyframes ringBreathe {
+    0%   { opacity: 0.55; inset: -4px; filter: blur(1px); }
+    100% { opacity: 1;    inset: -10px; filter: blur(5px); }
+}
+
+/* dark glass inner fill + shimmer text via ::after */
+#startBtn::after {
+    content: 'Let\'s Start';
+    position: absolute;
+    inset: 2px;
+    border-radius: 58px;
+    background: linear-gradient(135deg, rgba(8,4,0,0.94) 0%, rgba(25,14,0,0.90) 50%, rgba(8,4,0,0.94) 100%);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display';
+    font-size: 20px;
+    font-weight: 700;
+    font-style: italic;
+    letter-spacing: 14px;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(90deg,
+        var(--gold) 0%,
+        var(--gold-shine) 20%,
+        #ffffff 40%,
+        var(--gold-shine) 60%,
+        var(--gold-light) 80%,
+        var(--gold) 100%
+    );
+    background-size: 250%;
+    animation: textShimmerSlide 2.5s linear infinite;
+    z-index: -1;
+}
+
+@keyframes textShimmerSlide {
+    0%   { background-position: 200% center; }
+    100% { background-position: -200% center; }
+}
+
+#startBtn:hover::before {
+    animation: ringRotate 0.8s linear infinite, ringBreathe 0.6s ease-in-out infinite alternate;
+    filter: blur(8px);
+}
+
+#startBtn:hover {
+    transform: scale(1.07) translateY(-5px);
+}
+
+#startBtn:active {
+    transform: scale(0.96) translateY(0);
+}
+
+/* ===== MEDITATION SLIDE ===== */
+#screenMeditation { background: black; overflow: hidden; }
+
+.med-image {
+    position: absolute; top: 0; left: 0; width: 100vw; height: 100vh;
+    object-fit: cover; z-index: 1;
+    animation: imgZoom 1s ease-out forwards;
+}
+
+@keyframes imgZoom {
+    from { transform: scale(1.1); }
+    to { transform: scale(1); }
+}
+
+.med-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.7), rgba(0,0,0,0.5));
+    z-index: 2;
+}
+
+.med-content { position: relative; z-index: 10; text-align: center; }
+
+.med-statement p {
+    font-family: 'Playfair Display'; margin: 15px 0;
+    color: rgba(255,255,255,0.7);
+    text-shadow: 0 5px 30px rgba(0,0,0,0.7), 0 0 20px rgba(200,150,12,0.4);
+    letter-spacing: 3px; opacity: 0;
+}
+
+.med-line-1 { font-size: 28px; animation: textRevealMed 2.2s cubic-bezier(0.34,1.56,0.64,1) 0.4s forwards; }
+.med-line-2 {
+    font-size: 44px; font-weight: 900;
+    color: var(--gold-shine) !important;
+    animation: textRevealMed 2.2s cubic-bezier(0.34,1.56,0.64,1) 1.6s forwards;
+    text-shadow: 0 0 30px rgba(200,150,12,0.9), 0 0 60px rgba(255,200,80,0.5) !important;
+}
+.med-line-3 { font-size: 24px; animation: textRevealMed 2.2s cubic-bezier(0.34,1.56,0.64,1) 2.8s forwards; }
+
+@keyframes textRevealMed {
+    0% { opacity: 0; transform: translateY(40px) scaleX(0.85); filter: blur(12px); }
+    100% { opacity: 1; transform: translateY(0) scaleX(1); filter: blur(0); }
+}
+
+#medContinueBtn {
+    margin-top: 50px; padding: 15px 40px; background: transparent;
+    border: 2px solid rgba(255,255,255,0.3); color: rgba(255,255,255,0.5);
+    border-radius: 50px; cursor: pointer; letter-spacing: 5px;
+    text-transform: uppercase; font-family: 'Playfair Display'; font-size: 12px;
+    font-weight: 600; transition: all 0.5s cubic-bezier(0.34,1.56,0.64,1);
+    opacity: 0; animation: btnFadeInMed 1s ease-out 4.2s forwards;
+}
+
+@keyframes btnFadeInMed { to { opacity: 1; } }
+
+#medContinueBtn:hover {
+    border-color: var(--gold-light); color: var(--gold-light);
+    background: rgba(200,150,12,0.15);
+    box-shadow: 0 0 30px rgba(200,150,12,0.5);
+    transform: translateY(-3px);
+}
+
+/* ===== SCREEN 2 — ICE ===== */
+#screen2 { background: #080c10; overflow: hidden; }
+
+#screen2-bg {
+    position: absolute; inset: 0;
+    background:
+        radial-gradient(ellipse at 15% 40%, rgba(160,210,230,0.12) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 20%, rgba(180,220,240,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 55% 85%, rgba(140,190,210,0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #080c10 0%, #0e1620 40%, #080c10 100%);
+    animation: iceAuroraShift 8s ease-in-out infinite alternate;
+}
+
+@keyframes iceAuroraShift {
+    0%   { filter: hue-rotate(0deg) brightness(1); }
+    50%  { filter: hue-rotate(10deg) brightness(1.15); }
+    100% { filter: hue-rotate(-10deg) brightness(0.9); }
+}
+
+.orb {
+    position: absolute; border-radius: 50%; filter: blur(70px);
+    animation: orbFloat ease-in-out infinite alternate; pointer-events: none;
+    will-change: transform;
+}
+
+.orb1 { width: 450px; height: 450px; background: rgba(160,210,235,0.07); top: -15%; left: -10%; animation-duration: 9s; }
+.orb2 { width: 320px; height: 320px; background: rgba(200,230,245,0.05); bottom: 0%; right: -5%; animation-duration: 7s; }
+.orb3 { width: 220px; height: 220px; background: rgba(140,200,220,0.06); top: 35%; left: 45%; animation-duration: 11s; }
+
+@keyframes orbFloat {
+    0%   { transform: translate(0,0) scale(1); }
+    100% { transform: translate(25px,-35px) scale(1.12); }
+}
+
+.star2 {
+    position: absolute; border-radius: 50%;
+    background: rgba(220,240,250,0.9);
+    animation: iceStarTwinkle ease-in-out infinite; pointer-events: none;
+}
+
+@keyframes iceStarTwinkle {
+    0%,100% { opacity: 0; transform: scale(0.4); }
+    50% { opacity: 1; transform: scale(1); box-shadow: 0 0 4px 1px rgba(200,235,250,0.8); }
+}
+
+.ice-crystal {
+    position: absolute; font-size: 20px;
+    color: rgba(200,235,250,0.12);
+    animation: crystalFloat linear infinite;
+    pointer-events: none; user-select: none;
+}
+
+@keyframes crystalFloat {
+    0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { transform: translateY(-15vh) rotate(360deg); opacity: 0; }
+}
+
+#title {
+    font-size: 52px; font-family: 'Playfair Display'; font-style: italic;
+    text-align: center; position: relative; z-index: 2;
+    background: linear-gradient(90deg, #fff, var(--ice), var(--silver), #fff, var(--ice));
+    background-size: 300%;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    animation: iceShine 4s linear infinite;
+    filter: drop-shadow(0 0 15px rgba(180,225,245,0.4));
+}
+
+@keyframes iceShine { to { background-position: 300% center; } }
+
+#title.glitch { animation: iceShine 4s linear infinite, glitchMain 0.08s steps(1) infinite; }
+
+#title::before, #title::after {
+    content: attr(data-text); position: absolute; left: 0; top: 0; width: 100%; opacity: 0;
+}
+
+#title.glitch::before {
+    color: #88ccee;
+    animation: glitchTop 0.1s steps(1) infinite;
+    clip-path: polygon(0 0,100% 0,100% 40%,0 40%);
+    transform: translate(-3px,-2px); opacity: 0.6;
+}
+
+#title.glitch::after {
+    color: #aaddff;
+    animation: glitchBot 0.13s steps(1) infinite;
+    clip-path: polygon(0 60%,100% 60%,100% 100%,0 100%);
+    transform: translate(3px,2px); opacity: 0.6;
+}
+
+@keyframes glitchMain {
+    0%,94%  { transform: translate(0); filter: none; }
+    95%     { transform: translate(-2px,1px); filter: brightness(1.5); }
+    97%     { transform: translate(2px,-1px); }
+    100%    { transform: translate(0); }
+}
+
+@keyframes glitchTop {
+    0%,90%  { opacity: 0; transform: translate(-3px,-2px); }
+    91%     { opacity: 0.7; transform: translate(-5px,-2px); }
+    93%     { opacity: 0.5; transform: translate(3px,0); }
+    95%,100%{ opacity: 0; }
+}
+
+@keyframes glitchBot {
+    0%,88%  { opacity: 0; transform: translate(3px,2px); }
+    89%     { opacity: 0.6; transform: translate(5px,2px); }
+    92%     { opacity: 0.4; transform: translate(-3px,0); }
+    94%,100%{ opacity: 0; }
+}
+
+@keyframes flicker {
+    0%,19%,21%,23%,25%,54%,56%,100% { opacity: 1; }
+    20%,24%,55% { opacity: 0.3; }
+}
+
+#title.flicker { animation: iceShine 4s linear infinite, flicker 4s linear infinite, glitchMain 0.08s steps(1) infinite; }
+
+#precapBtn {
+    margin-top: 50px; padding: 18px 55px;
+    background: linear-gradient(135deg, rgba(160,210,235,0.15) 0%, rgba(220,240,250,0.25) 50%, rgba(160,210,235,0.15) 100%);
+    background-size: 200%;
+    border: 1px solid rgba(200,235,250,0.4);
+    color: var(--ice); border-radius: 3px; cursor: pointer;
+    letter-spacing: 5px; text-transform: uppercase; font-style: italic;
+    font-family: 'Poppins'; font-weight: 500; font-size: 13px;
+    box-shadow: 0 0 25px rgba(160,210,235,0.2), inset 0 0 20px rgba(255,255,255,0.03);
+    backdrop-filter: blur(10px);
+    position: relative; overflow: hidden; display: block;
+    margin-left: auto; margin-right: auto; z-index: 2;
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 1s, transform 1s, box-shadow 0.6s;
+}
+
+#precapBtn.show { opacity: 1; transform: translateY(0); }
+
+#precapBtn::before {
+    content: ''; position: absolute; top: -50%; left: -60%;
+    width: 40%; height: 200%;
+    background: rgba(255,255,255,0.15);
+    transform: skewX(-20deg); transition: 0.7s;
+}
+
+#precapBtn:hover {
+    box-shadow: 0 0 40px rgba(160,210,235,0.5), 0 0 80px rgba(160,210,235,0.15);
+    transform: translateY(-2px);
+    border-color: rgba(220,245,255,0.7);
+}
+
+#precapBtn:hover::before { left: 130%; }
+
+/* ===== DATE SCREENS — white & pink palette ===== */
+#screenDateBack, #screenDateFwd {
+    background: #0d0810; overflow: hidden; flex-direction: column;
+}
+
+.date-bg {
+    position: absolute; inset: 0;
+    background:
+        radial-gradient(ellipse at 25% 35%, rgba(255,182,213,0.18) 0%, transparent 55%),
+        radial-gradient(ellipse at 75% 65%, rgba(255,255,255,0.10) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(220,100,160,0.08) 0%, transparent 60%),
+        #0d0810;
+    animation: dateBgPulse 5s ease-in-out infinite alternate;
+}
+
+@keyframes dateBgPulse { 0%{opacity:0.7;} 100%{opacity:1;} }
+
+.date-petal {
+    position: absolute; border-radius: 50%; pointer-events: none;
+    animation: petalDrift ease-in-out infinite;
+    will-change: transform, opacity;
+}
+
+@keyframes petalDrift {
+    0%   { transform: translateY(0) translateX(0) scale(0.6); opacity: 0; }
+    20%  { opacity: 1; }
+    80%  { opacity: 0.8; }
+    100% { transform: translateY(-60px) translateX(20px) scale(1.2); opacity: 0; }
+}
+
+.timeline-line {
+    position: absolute; top: 50%; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,182,213,0.3), rgba(255,255,255,0.6), rgba(255,182,213,0.3), transparent);
+    transform: translateY(-50%);
+}
+
+.date-label {
+    font-family: 'Playfair Display'; font-style: italic; font-size: 18px;
+    letter-spacing: 6px; text-transform: uppercase;
+    color: rgba(255,182,213,0.80);
+    text-shadow: 0 0 20px rgba(255,120,180,0.5);
+    margin-bottom: 30px; position: relative; z-index: 2;
+    animation: labelFade 2s ease forwards;
+}
+
+@keyframes labelFade {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.date-display { position: relative; z-index: 2; display: flex; align-items: center; gap: 0; }
+
+.date-part {
+    display: flex; flex-direction: column; align-items: center;
+    overflow: hidden; height: 160px; position: relative;
+}
+
+.date-roller {
+    display: flex; flex-direction: column; align-items: center;
+    transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+
+.date-digit {
+    font-family: 'Playfair Display'; font-style: italic; font-size: 110px;
+    line-height: 160px; font-weight: 700;
+    background: linear-gradient(to bottom, #ffffff, #ffb6d9, #ff7eb3);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 18px rgba(255,120,180,0.6)) drop-shadow(0 0 6px rgba(255,255,255,0.8));
+    min-width: 80px; text-align: center;
+}
+
+.date-sep {
+    font-family: 'Playfair Display'; font-size: 80px; line-height: 160px;
+    color: #ffb6d9; opacity: 0.8; padding: 0 5px;
+    filter: drop-shadow(0 0 10px rgba(255,120,180,0.5));
+    position: relative; z-index: 2;
+}
+
+.date-part::before, .date-part::after {
+    content: ''; position: absolute; left: 0; right: 0; height: 50px; z-index: 3; pointer-events: none;
+}
+
+.date-part::before { top: 0; background: linear-gradient(to bottom, #0d0810, transparent); }
+.date-part::after { bottom: 0; background: linear-gradient(to top, #0d0810, transparent); }
+
+.date-subtitle {
+    font-family: 'Poppins'; font-style: italic; font-size: 14px;
+    letter-spacing: 4px; color: rgba(255,182,213,0.45);
+    margin-top: 30px; position: relative; z-index: 2;
+}
+
+.date-star {
+    position: absolute; border-radius: 50%;
+    background: radial-gradient(circle, #fff 0%, #ffb6d9 60%, transparent 100%);
+    animation: dateStarTwinkle ease-in-out infinite; pointer-events: none;
+}
+
+@keyframes dateStarTwinkle {
+    0%,100%{opacity:0;transform:scale(0.3);}
+    50%{opacity:1;transform:scale(1); box-shadow: 0 0 6px 2px rgba(255,182,213,0.7);}
+}
+
+#nextBtn {
+    margin-top: 50px; padding: 16px 50px;
+    background: linear-gradient(135deg, #ff7eb3 0%, #ffffff 50%, #ff7eb3 100%);
+    background-size: 200%; border: none; color: #5a0030; border-radius: 30px; cursor: pointer;
+    letter-spacing: 5px; text-transform: uppercase; font-style: italic; font-family: 'Poppins';
+    font-weight: 500; font-size: 13px;
+    box-shadow: 0 0 30px rgba(255,120,180,0.5), 0 0 60px rgba(255,182,213,0.2);
+    position: relative; overflow: hidden; z-index: 2;
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 1s, transform 1s, box-shadow 0.6s;
+}
+
+#nextBtn.show { opacity: 1; transform: translateY(0); }
+#nextBtn:hover {
+    box-shadow: 0 0 60px rgba(255,120,180,0.9), 0 0 100px rgba(255,182,213,0.4);
+    transform: translateY(-3px);
+}
+
+/* ===== SLIDES ===== */
+#screen3 { background: black; }
+
+.slide {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: contain !important; opacity: 0;
+    transform: scale(1) !important; transition: opacity 2s ease-in-out;
+}
+
+.slide.active { opacity: 1; transform: scale(1) !important; transition: opacity 2s ease-in-out; }
+
+/* ===== FLOATING OPEN BOX ===== */
+#screenOpenBox {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+    overflow: hidden; flex-direction: column;
+}
+
+.open-box-bg {
+    position: absolute; inset: 0;
+    background:
+        radial-gradient(ellipse at 20% 50%, rgba(200,150,12,0.05) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 30%, rgba(220,240,250,0.03) 0%, transparent 50%),
+        transparent;
+    animation: openBoxPulse 6s ease-in-out infinite alternate;
+}
+
+@keyframes openBoxPulse {
+    0% { filter: brightness(1); }
+    50% { filter: brightness(1.1); }
+    100% { filter: brightness(0.95); }
+}
+
+.open-box-stars { position: absolute; inset: 0; }
+
+.open-box-container {
+    position: relative; z-index: 2; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; height: 100%;
+}
+
+.open-box-text {
+    font-family: 'Playfair Display'; font-style: italic; font-size: 48px;
+    color: #ffffff; text-align: center; margin-bottom: 60px;
+    letter-spacing: 3px; opacity: 0;
+    animation: openBoxTextSlideIn 1s ease-out 0.5s forwards;
+    filter: drop-shadow(0 0 10px rgba(200,150,12,0.3));
+}
+
+@keyframes openBoxTextSlideIn {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.floating-box {
+    width: 220px; height: 220px;
+    border: 2px solid var(--gold-light);
+    border-radius: 15px;
+    background: linear-gradient(135deg, rgba(200,150,12,0.15) 0%, rgba(220,240,250,0.08) 50%, rgba(200,150,12,0.1) 100%);
+    backdrop-filter: blur(15px);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; position: relative;
+    box-shadow:
+        0 0 30px rgba(200,150,12,0.3),
+        0 0 60px rgba(200,150,12,0.1),
+        inset 0 0 20px rgba(255,255,255,0.05);
+    transition: 0.4s; opacity: 0; transform: scale(0.8);
+    animation: floatingBoxFloat 4s ease-in-out infinite, floatingBoxAppear 1s ease-out 1s forwards;
+}
+
+@keyframes floatingBoxAppear {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes floatingBoxFloat {
+    0%,100% { transform: translateY(0px) translateX(0px) scale(1); }
+    25% { transform: translateY(-20px) translateX(-15px) scale(1.02); }
+    50% { transform: translateY(-40px) translateX(20px) scale(1.05); }
+    75% { transform: translateY(-15px) translateX(-20px) scale(1.02); }
+}
+
+.floating-box::before {
+    content: ''; position: absolute; inset: 0; border-radius: 15px;
+    background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+
+.open-box-text-inner {
+    font-family: 'Playfair Display'; font-style: italic; font-size: 42px; font-weight: 700;
+    background: linear-gradient(90deg, var(--gold-shine), var(--gold-light), var(--gold-shine));
+    background-size: 200%;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    position: relative; z-index: 1;
+    animation: openTextShine 2s linear infinite;
+}
+
+@keyframes openTextShine { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
+
+.floating-box:hover {
+    box-shadow:
+        0 0 50px rgba(200,150,12,0.6),
+        0 0 100px rgba(200,150,12,0.2),
+        inset 0 0 30px rgba(255,255,255,0.1);
+    border-color: var(--gold-shine);
+}
+
+/* ===== GRID ===== */
+.grid {
+    display: grid; grid-template-columns: repeat(3,1fr); grid-template-rows: repeat(2,1fr);
+    width: 100vw; height: 100vh;
+}
+
+.box {
+    opacity: 0; transform: scale(1.1);
+    transition: opacity 1s cubic-bezier(0.2,1,0.3,1), transform 1s cubic-bezier(0.2,1,0.3,1), filter 3s ease-in-out;
+    overflow: hidden;
+}
+
+.box.show { opacity: 1; transform: scale(1); }
+
+.grid.fade-out .box {
+    opacity: 0 !important; filter: blur(8px);
+    transition: opacity 3s ease-in-out, transform 1s cubic-bezier(0.2,1,0.3,1), filter 3s ease-in-out !important;
+}
+
+.box img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* ===== BIRTHDAY TEXT — white & pink palette ===== */
+.overlay-container {
+    position: absolute; padding: 50px 100px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(30px);
+    border: 1px solid rgba(255,182,213,0.35);
+    border-radius: 20px;
+    box-shadow:
+        0 40px 100px rgba(0,0,0,0.5),
+        0 0 60px rgba(255,120,180,0.15),
+        inset 0 0 40px rgba(255,255,255,0.05);
+    opacity: 0; transform: translateY(30px); overflow: visible; text-align: center;
+}
+
+.overlay-container.show { opacity: 1; transform: translateY(0); transition: 1.5s; }
+
+.overlay-text {
+    font-size: 60px; font-family: 'Playfair Display'; font-style: italic; letter-spacing: 5px;
+    background: linear-gradient(90deg, #ffffff, #ffe0ef, #ffffff, #ffc2dc, #ffffff, #ffe0ef, #ffffff);
+    background-size: 400%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    animation: hbShine 3s linear infinite, hbFloat 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px rgba(255,255,255,0.9)) drop-shadow(0 0 25px rgba(255,120,180,0.5));
+}
+
+@keyframes hbShine { to{background-position:400% center;} }
+@keyframes hbFloat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
+
+.poojitha-text {
+    font-size: 52px; font-family: 'Playfair Display'; font-weight: 700;
+    display: block; margin-top: 15px; opacity: 0; transform: translateY(20px);
+    background: linear-gradient(90deg, #ff7eb3, #ffb6d9, #ffffff, #ffb6d9, #ff7eb3);
+    background-size: 250% auto;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 12px rgba(255,120,180,0.9)) drop-shadow(0 0 30px rgba(255,182,213,0.5));
+}
+
+.overlay-container.show .poojitha-text {
+    opacity: 1; transform: translateY(0);
+    transition: 1.2s cubic-bezier(0.2,1,0.3,1) 0.8s;
+    animation: namePulse 3s ease-in-out infinite, nameShimmer 4s linear infinite;
+}
+
+@keyframes namePulse {
+    0%,100% { transform: scale(1); filter: drop-shadow(0 0 12px rgba(255,120,180,0.9)); }
+    50% { transform: scale(1.08); filter: drop-shadow(0 0 35px rgba(255,120,180,1)) drop-shadow(0 0 60px rgba(255,182,213,0.8)); }
+}
+
+@keyframes nameShimmer { to { background-position: 250% center; } }
+
+.glitter {
+    position: absolute; border-radius: 50%; pointer-events: none;
+    animation: glitterAnim ease-in-out infinite;
+}
+
+@keyframes glitterAnim {
+    0%  {opacity:0;transform:scale(0) translateY(0);}
+    30% {opacity:1;transform:scale(1) translateY(-10px);}
+    60% {opacity:0.8;}
+    100%{opacity:0;transform:scale(0.3) translateY(-30px);}
+}
+
+.firework { position: absolute; width: 4px; height: 4px; border-radius: 50%; pointer-events: none; z-index: 99; }
+
+.heart-particle {
+    position: absolute; font-size: 20px; color: #ff6b6b;
+    pointer-events: none; animation: heartFade 3s ease-out forwards; z-index: 100;
+}
+
+@keyframes heartFade {
+    0% { transform: translateY(0) scale(0) rotate(0deg); opacity: 0; }
+    20% { opacity: 1; }
+    100% { transform: translateY(-120px) scale(1.5) rotate(20deg); opacity: 0; }
+}
+
+/* ===== FINAL SCREEN ===== */
+#screen5 { background: black; }
+
+.final-bg img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.final-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.4); }
+
+.final-text {
+    position: absolute; left: 5%; bottom: 8%; font-size: 50px;
+    font-family: 'Playfair Display'; font-style: italic;
+    color: white; opacity: 0; text-align: left; line-height: 1.4;
+}
+
+.highlight { display: inline-block; color: #ff9ecf; font-style: italic; }
+.highlight.animate { animation: beat 1s infinite; }
+
+@keyframes beat { 50%{transform:scale(1.2);} }
+
+.fadeIn { animation: fade 2s forwards; }
+
+@keyframes fade { to{opacity:1;transform:translateY(0);} }
 </style>
 </head>
+<body>
 
-<body class="bg1">
-
-<!-- 🌟 Landing Page -->
-<div id="page1" class="container">
-    <div class="date-text">July 10</div>
-    <div class="question">?</div>
-    
-    <!-- 👇 You can change this text anytime -->
-    <p class="hint">Do you remember this day?</p>
-    
-    <button onclick="goNext()">Reveal ✨</button>
-</div>
-
-<!-- 💌 Slides -->
-<div id="page2" class="container hidden">
-    <div class="card">
-        <img id="photo" class="photo" src="">
-        <div id="msg" class="message"></div>
-        <button onclick="nextSlide()">Next ➡️</button>
+<div id="screen1" class="screen">
+    <div id="goldParticles"></div>
+    <div id="bgWords"></div>
+    <div style="text-align:center;position:relative;z-index:2;">
+        <div id="countdown">5</div>
+        <button id="startBtn" style="display:none" aria-label="Let's Start"></button>
     </div>
 </div>
 
-<!-- 🎉 Final Page -->
-<div id="page3" class="container hidden">
-    <h1 class="final-text">Happy Birthday ❤️</h1>
-    <p>You are truly special 🌸</p>
+<div id="screenMeditation" class="screen hidden">
+    <img src="img15.jpg" class="med-image">
+    <div class="med-overlay"></div>
+    <div class="med-content">
+        <div class="med-statement">
+            <p class="med-line-1">Reminder -</p>
+            <p class="med-line-2">Never let anyone dim your smile!</p>
+            <p class="med-line-3">It's all what you allow.</p>
+        </div>
+        <button id="medContinueBtn">Tap to Continue</button>
+    </div>
+</div>
+
+<div id="screen2" class="screen hidden">
+    <div id="screen2-bg"></div>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+    <div id="screen2-stars"></div>
+    <div id="screen2-crystals"></div>
+    <div style="text-align:center;position:relative;z-index:2;">
+        <div id="title" data-text=""></div>
+        <button id="precapBtn">❄ &nbsp;View Precap&nbsp; ❄</button>
+    </div>
+</div>
+
+<div id="screenDateBack" class="screen hidden">
+    <div class="date-bg"></div>
+    <div class="timeline-line"></div>
+    <div id="dateBackStars"></div>
+    <div class="date-label">Going back in time...</div>
+    <div class="date-display" id="dateBackDisplay"></div>
+    <div class="date-subtitle">rewinding to where it all began</div>
+</div>
+
+<div id="screen3" class="screen hidden"></div>
+
+<div id="screenDateFwd" class="screen hidden">
+    <div class="date-bg"></div>
+    <div class="timeline-line"></div>
+    <div id="dateFwdStars"></div>
+    <div class="date-label">And now...</div>
+    <div class="date-display" id="dateFwdDisplay"></div>
+    <div class="date-subtitle">a year of memories, arriving here</div>
+    <button id="nextBtn">✦ &nbsp;Continue&nbsp; ✦</button>
+</div>
+
+<div id="screenOpenBox" class="screen hidden">
+    <div class="open-box-bg"></div>
+    <div class="open-box-stars" id="open-box-stars"></div>
+    <div class="open-box-container">
+        <div class="open-box-text">It's time to celebrate...</div>
+        <div class="floating-box" id="floatingBox">
+            <div class="open-box-text-inner">OPEN</div>
+        </div>
+    </div>
+</div>
+
+<div id="screen4" class="screen hidden">
+    <div class="grid" id="gridReveal">
+        <div class="box"><img src="img1.jpg"></div>
+        <div class="box"><img src="img2.jpg"></div>
+        <div class="box"><img src="img3.jpg"></div>
+        <div class="box"><img src="img4.jpg"></div>
+        <div class="box"><img src="img5.jpg"></div>
+        <div class="box"><img src="img6.jpg"></div>
+    </div>
+    <div class="overlay-container" id="textBox">
+        <div class="overlay-text">Happy Birthday</div>
+        <span class="poojitha-text">Poojitha</span>
+    </div>
+</div>
+
+<div id="screen5" class="screen hidden">
+    <div class="final-bg"><img src="img7.jpg"></div>
+    <div class="final-overlay"></div>
+    <div class="final-text" id="finalText">
+        All the Very Best.<br>
+        Thank <span class="highlight" id="youWord">you</span> for everything.
+    </div>
 </div>
 
 <script>
-let slides = [
-    {img: "https://picsum.photos/id/1018/300/200", text: "This was the day everything started...", bg:"bg1"},
-    {img: "https://picsum.photos/id/1015/300/200", text: "A memory I will always cherish...", bg:"bg2"},
-    {img: "https://picsum.photos/id/1025/300/200", text: "You made this day unforgettable...", bg:"bg3"}
+const screen1 = document.getElementById("screen1");
+const screenMeditation = document.getElementById("screenMeditation");
+const screen2 = document.getElementById("screen2");
+const screenDateBack = document.getElementById("screenDateBack");
+const screen3 = document.getElementById("screen3");
+const screenDateFwd = document.getElementById("screenDateFwd");
+const screenOpenBox = document.getElementById("screenOpenBox");
+const screen4 = document.getElementById("screen4");
+const screen5 = document.getElementById("screen5");
+const countdown = document.getElementById("countdown");
+const startBtn = document.getElementById("startBtn");
+const medContinueBtn = document.getElementById("medContinueBtn");
+const title = document.getElementById("title");
+const precapBtn = document.getElementById("precapBtn");
+const nextBtn = document.getElementById("nextBtn");
+const textBox = document.getElementById("textBox");
+const finalText = document.getElementById("finalText");
+const youWord = document.getElementById("youWord");
+const floatingBox = document.getElementById("floatingBox");
+
+/* LIGHTWEIGHT GOLD PARTICLES — reduced count */
+function spawnGoldParticles() {
+    const container = document.getElementById("goldParticles");
+    container.style.position = "absolute";
+    container.style.inset = "0";
+    container.style.pointerEvents = "none";
+    container.style.zIndex = "1";
+
+    for (let i = 0; i < 18; i++) {
+        const p = document.createElement("div");
+        p.className = "gold-particle";
+        const size = 2 + Math.random() * 3;
+        p.style.width = size + "px";
+        p.style.height = size + "px";
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.top = Math.random() * 100 + "vh";
+        p.style.animationDuration = (4 + Math.random() * 4) + "s";
+        p.style.animationDelay = (Math.random() * 6) + "s";
+        container.appendChild(p);
+    }
+}
+spawnGoldParticles();
+
+/* BACKGROUND WORDS — reduced size, simplified float, fewer at once */
+const bgWords = document.getElementById("bgWords");
+bgWords.style.position = "absolute";
+bgWords.style.inset = "0";
+bgWords.style.pointerEvents = "none";
+bgWords.style.zIndex = "1";
+
+const wordList = [
+    "P wants to become PB, but B want to become BB finally P becomes PP",
+    "THALA is fan of MSD, friend of OCD",
+    "THALA rejected RUKUMINI VASANTHA proposal",
+    "GOPIKA alias mallu won miss universe.",
+    "Government to declare 28th april as OCD day.",
+    "Meditation shree became chairman of hindu community",
+    "Police are searching for senior tester and junior developer.",
+    "Sarvesh became first scientist in mars",
+    "THALA welcomes all girls to join BJP"
 ];
 
-let index = 0;
+let activeWordCount = 0;
+const MAX_WORDS = 3;
 
-function goNext() {
-    document.getElementById("page1").classList.add("hidden");
-    document.getElementById("page2").classList.remove("hidden");
-    createFlowers();
-    showSlide();
+function spawnWord() {
+    if (activeWordCount >= MAX_WORDS) return;
+    activeWordCount++;
+
+    const el = document.createElement("div");
+    el.className = "bg-word";
+    el.innerText = wordList[Math.floor(Math.random() * wordList.length)];
+
+    el.style.left = (5 + Math.random() * 60) + "vw";
+
+    // Increased font size by 30%
+    el.style.fontSize = (18.2 + Math.random() * 15.6) + "px";
+
+    const dur = 12 + Math.random() * 8;
+    el.style.animationDuration = dur + "s";
+    el.style.animationDelay = (Math.random() * 2) + "s";
+
+    bgWords.appendChild(el);
+
+    setTimeout(() => {
+        el.remove();
+        activeWordCount--;
+    }, (dur + 3) * 1000);
 }
 
-function showSlide() {
-    document.body.className = slides[index].bg;
-    document.getElementById("photo").src = slides[index].img;
-    typeText(slides[index].text);
+const wordSpawner = setInterval(spawnWord, 3000);
+
+function spawnScreen2Stars() {
+    const container = document.getElementById("screen2-stars");
+    for(let i = 0; i < 60; i++) {
+        const s = document.createElement("div");
+        s.className = "star2";
+        s.style.left = Math.random() * 100 + "vw";
+        s.style.top = Math.random() * 100 + "vh";
+        s.style.animationDuration = (1.5 + Math.random() * 3) + "s";
+        s.style.animationDelay = (Math.random() * 5) + "s";
+        const sz = 1 + Math.random() * 3;
+        s.style.width = s.style.height = sz + "px";
+        container.appendChild(s);
+    }
 }
 
-function nextSlide() {
-    index++;
-    
-    if(index >= slides.length) {
-        document.getElementById("page2").classList.add("hidden");
-        document.getElementById("page3").classList.remove("hidden");
-        document.body.className = "bg4";
+function spawnIceCrystals() {
+    const container = document.getElementById("screen2-crystals");
+    const crystals = ["❄","❅","❆","✦","✧","·"];
+    function spawn() {
+        const el = document.createElement("div");
+        el.className = "ice-crystal";
+        el.innerText = crystals[Math.floor(Math.random() * crystals.length)];
+        el.style.left = Math.random() * 100 + "vw";
+        el.style.fontSize = (14 + Math.random() * 28) + "px";
+        const dur = 8 + Math.random() * 10;
+        el.style.animationDuration = dur + "s";
+        el.style.animationDelay = (Math.random() * 2) + "s";
+        container.appendChild(el);
+        setTimeout(() => el.remove(), (dur + 3) * 1000);
+    }
+    setInterval(spawn, 800);
+}
+
+function spawnOpenBoxStars() {
+    const container = document.getElementById("open-box-stars");
+    for(let i = 0; i < 40; i++) {
+        const s = document.createElement("div");
+        s.style.position = "absolute";
+        s.style.borderRadius = "50%";
+        s.style.background = "rgba(200,150,12,0.6)";
+        s.style.left = Math.random() * 100 + "%";
+        s.style.top = Math.random() * 100 + "%";
+        const sz = 1 + Math.random() * 2.5;
+        s.style.width = s.style.height = sz + "px";
+        s.style.animation = `iceStarTwinkle ${1.5 + Math.random() * 3}s ease-in-out infinite`;
+        s.style.animationDelay = (Math.random() * 5) + "s";
+        container.appendChild(s);
+    }
+}
+
+function spawnDateStars(containerId) {
+    const container = document.getElementById(containerId);
+    for(let i = 0; i < 60; i++) {
+        const s = document.createElement("div");
+        s.className = "date-star";
+        s.style.left = Math.random() * 100 + "vw";
+        s.style.top = Math.random() * 100 + "vh";
+        const size = 1 + Math.random() * 3;
+        s.style.width = s.style.height = size + "px";
+        s.style.animationDuration = (1.5 + Math.random() * 3) + "s";
+        s.style.animationDelay = (Math.random() * 5) + "s";
+        container.appendChild(s);
+    }
+}
+
+function buildDateRoller(containerId) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = "";
+    const parts = ['dd','mm','yyyy'];
+    const rollers = {};
+
+    parts.forEach((part, idx) => {
+        if(idx > 0) {
+            const sep = document.createElement("div");
+            sep.className = "date-sep";
+            sep.innerText = "-";
+            container.appendChild(sep);
+        }
+        const partEl = document.createElement("div");
+        partEl.className = "date-part";
+        const roller = document.createElement("div");
+        roller.className = "date-roller";
+
+        let values = [];
+        if(part === 'dd') values = Array.from({length:31}, (_,i) => String(i+1).padStart(2,'0'));
+        if(part === 'mm') values = Array.from({length:12}, (_,i) => String(i+1).padStart(2,'0'));
+        if(part === 'yyyy') values = ['2024','2025','2026'];
+
+        values.forEach(v => {
+            const digit = document.createElement("div");
+            digit.className = "date-digit";
+            digit.innerText = v;
+            roller.appendChild(digit);
+        });
+
+        partEl.appendChild(roller);
+        container.appendChild(partEl);
+        rollers[part] = { roller, values };
+    });
+
+    function setDate(dd, mm, yyyy) {
+        const ddStr = String(dd).padStart(2,'0');
+        const mmStr = String(mm).padStart(2,'0');
+        const yyyyStr = String(yyyy);
+        const ddIdx = rollers['dd'].values.indexOf(ddStr);
+        const mmIdx = rollers['mm'].values.indexOf(mmStr);
+        const yyyyIdx = rollers['yyyy'].values.indexOf(yyyyStr);
+        if(ddIdx >= 0) rollers['dd'].roller.style.transform = `translateY(-${ddIdx * 160}px)`;
+        if(mmIdx >= 0) rollers['mm'].roller.style.transform = `translateY(-${mmIdx * 160}px)`;
+        if(yyyyIdx >= 0) rollers['yyyy'].roller.style.transform = `translateY(-${yyyyIdx * 160}px)`;
+    }
+    return { setDate };
+}
+
+/* ====================================================
+   COUNTDOWN TARGET — change this to reschedule:
+   - Today at 9:30 PM  → year:2026, month:3 (April=3), day:26, hour:21, min:30
+   - Next day 9:30 PM  → change day:26 to day:27  (and update month/year if needed)
+   ==================================================== */
+function getTarget() {
+    const t = new Date();
+    t.setFullYear(2026);
+    t.setMonth(3);   // 3 = April (0-indexed)
+    t.setDate(28);   // 28th
+    t.setHours(0);   // 12:00 AM midnight
+    t.setMinutes(0);
+    t.setSeconds(0);
+    t.setMilliseconds(0);
+    return t;
+}
+
+function showStartButton() {
+    countdown.style.display = "none";
+    startBtn.style.display = "inline-block";
+    setTimeout(() => {
+        [0, 400, 800].forEach(delay => {
+            setTimeout(() => {
+                const r = document.createElement('div');
+                r.className = 'ring-ripple';
+                startBtn.appendChild(r);
+                setTimeout(() => r.remove(), 1900);
+            }, delay);
+        });
+        setInterval(() => {
+            if (startBtn.style.display === 'none') return;
+            [0, 350, 700].forEach(d => {
+                setTimeout(() => {
+                    const r = document.createElement('div');
+                    r.className = 'ring-ripple';
+                    startBtn.appendChild(r);
+                    setTimeout(() => r.remove(), 1900);
+                }, d);
+            });
+        }, 3000);
+    }, 300);
+}
+
+function formatCountdown(ms) {
+    if (ms <= 0) return "0";
+    const totalSec = Math.floor(ms / 1000);
+    const h = Math.floor(totalSec / 3600);
+    const m = Math.floor((totalSec % 3600) / 60);
+    const s = totalSec % 60;
+    if (h > 0) return `${h}h ${String(m).padStart(2,'0')}m ${String(s).padStart(2,'0')}s`;
+    if (m > 0) return `${m}m ${String(s).padStart(2,'0')}s`;
+    return `${s}`;
+}
+
+// Make countdown text smaller when showing h/m/s format
+countdown.style.fontSize = "100px";
+countdown.style.letterSpacing = "0px";
+
+let lastDisplayed = "";
+const timer = setInterval(() => {
+    const now = new Date();
+    const diff = getTarget() - now;
+
+    if (diff <= 0) {
+        clearInterval(timer);
+        showStartButton();
         return;
     }
-    
-    showSlide();
-}
 
-/* Typing */
-function typeText(text) {
+    const display = formatCountdown(diff);
+    if (display !== lastDisplayed) {
+        lastDisplayed = display;
+        countdown.innerText = display;
+        countdown.classList.remove("pulse-anim");
+        void countdown.offsetWidth;
+        countdown.classList.add("pulse-anim");
+
+        // When ≤5 seconds left, go big again
+        const secsLeft = Math.floor(diff / 1000);
+        if (secsLeft <= 5) {
+            countdown.style.fontSize = "200px";
+            countdown.style.letterSpacing = "-5px";
+        } else {
+            const totalMin = Math.floor(secsLeft / 60);
+            countdown.style.fontSize = totalMin > 60 ? "70px" : "100px";
+            countdown.style.letterSpacing = "0px";
+        }
+    }
+}, 500);
+
+startBtn.onclick = () => {
+    clearInterval(wordSpawner);
+    screen1.classList.add("hidden");
+    screenMeditation.classList.remove("hidden");
+};
+
+medContinueBtn.onclick = () => {
+    screenMeditation.classList.add("hidden");
+    screen2.classList.remove("hidden");
+    spawnScreen2Stars();
+    spawnIceCrystals();
+    typeTitle();
+};
+
+function typeTitle() {
+    const txt = "What happened last year...";
     let i = 0;
-    let msg = document.getElementById("msg");
-    msg.innerHTML = "";
-
-    let interval = setInterval(() => {
-        msg.innerHTML += text.charAt(i);
-        i++;
-        if (i >= text.length) clearInterval(interval);
-    }, 40);
+    title.setAttribute("data-text", txt);
+    function type() {
+        if(i < txt.length) {
+            const current = txt.substring(0, i + 1);
+            title.innerText = current;
+            title.setAttribute("data-text", current);
+            i++;
+            setTimeout(type, 60);
+        } else {
+            title.classList.add("glitch","flicker");
+            setTimeout(() => precapBtn.classList.add("show"), 600);
+        }
+    }
+    type();
 }
 
-/* Flowers */
-function createFlowers() {
-    setInterval(() => {
-        let flower = document.createElement("div");
-        flower.innerHTML = "🌸";
-        flower.className = "flower";
-        flower.style.left = Math.random() * 100 + "vw";
-        flower.style.fontSize = (Math.random() * 20 + 15) + "px";
-        document.body.appendChild(flower);
+precapBtn.onclick = () => {
+    screen2.classList.add("hidden");
+    screenDateBack.classList.remove("hidden");
+    spawnDateStars("dateBackStars");
+    spawnDatePetals("dateBackStars");
 
-        setTimeout(() => flower.remove(), 8000);
+    const roller = buildDateRoller("dateBackDisplay");
+    const today = new Date();
+    let curDay = today.getDate();
+    let curMonth = today.getMonth() + 1;
+    let curYear = today.getFullYear();
+
+    const targetDay = 28, targetMonth = 4, targetYear = 2025;
+    roller.setDate(curDay, curMonth, curYear);
+
+    const totalMonths = (curYear - targetYear) * 12 + (curMonth - targetMonth);
+    const stepDelay = totalMonths > 0 ? Math.max(80, Math.floor(2000 / totalMonths)) : 200;
+
+    function stepBack() {
+        curMonth--;
+        if(curMonth < 1) { curMonth = 12; curYear--; }
+        const maxDay = new Date(curYear, curMonth, 0).getDate();
+        curDay = Math.min(curDay, maxDay);
+        roller.setDate(curDay, curMonth, curYear);
+
+        const reached = (curYear < targetYear) || (curYear === targetYear && curMonth <= targetMonth);
+        if(!reached) {
+            setTimeout(stepBack, stepDelay);
+        } else {
+            setTimeout(() => {
+                roller.setDate(targetDay, targetMonth, targetYear);
+                setTimeout(() => {
+                    screenDateBack.classList.add("hidden");
+                    screen3.classList.remove("hidden");
+                    startSlides();
+                }, 1500);
+            }, 500);
+        }
+    }
+    setTimeout(stepBack, 600);
+};
+
+const imgs = ["img8.jpg","img10.jpg","img12.jpg","img11.jpg","img9.jpg"];
+function startSlides() {
+    imgs.forEach(src => {
+        const im = document.createElement("img");
+        im.src = src;
+        im.className = "slide";
+        im.style.transform = "scale(1)";
+        screen3.appendChild(im);
+    });
+    const slides = document.querySelectorAll(".slide");
+    let current = 0;
+    function showNext() {
+        if(current > 0) slides[current-1].classList.remove("active");
+        if(current < slides.length) {
+            slides[current].classList.add("active");
+            current++;
+            setTimeout(showNext, 3500);
+        } else {
+            screen3.classList.add("hidden");
+            screenDateFwd.classList.remove("hidden");
+            spawnDateStars("dateFwdStars");
+            spawnDatePetals("dateFwdStars");
+            startDateForward();
+        }
+    }
+    showNext();
+}
+
+function startDateForward() {
+    const roller = buildDateRoller("dateFwdDisplay");
+    let curDay = 28, curMonth = 4, curYear = 2025;
+    const targetDay = 28, targetMonth = 4, targetYear = 2026;
+
+    roller.setDate(curDay, curMonth, curYear);
+    const stepDelay = Math.floor(2000 / 12);
+
+    function stepForward() {
+        curMonth++;
+        if(curMonth > 12) { curMonth = 1; curYear++; }
+        const maxDay = new Date(curYear, curMonth, 0).getDate();
+        curDay = Math.min(curDay, maxDay);
+        roller.setDate(curDay, curMonth, curYear);
+
+        const reached = (curYear > targetYear) || (curYear === targetYear && curMonth >= targetMonth);
+        if(!reached) {
+            setTimeout(stepForward, stepDelay);
+        } else {
+            setTimeout(() => {
+                roller.setDate(targetDay, targetMonth, targetYear);
+                setTimeout(() => nextBtn.classList.add("show"), 800);
+            }, 500);
+        }
+    }
+    setTimeout(stepForward, 600);
+}
+
+nextBtn.onclick = () => {
+    screenDateFwd.classList.add("hidden");
+    screenOpenBox.classList.remove("hidden");
+    spawnOpenBoxStars();
+};
+
+/* ===== BIRTHDAY MUSIC ===== */
+/* 🎵 To use your own file: replace the src below with your filename,
+   e.g. src="birthday_song.mp3" — place the file next to this HTML */
+const bgMusic = new Audio();
+bgMusic.src = "1.mp3"; // placeholder — swap with your file
+bgMusic.loop = true;
+bgMusic.volume = 0;
+
+function startMusic() {
+    bgMusic.play().catch(() => {}); // silently handle autoplay block
+    // Fade in over 3 seconds
+    let vol = 0;
+    const fadeIn = setInterval(() => {
+        vol = Math.min(vol + 0.02, 0.85);
+        bgMusic.volume = vol;
+        if (vol >= 0.85) clearInterval(fadeIn);
+    }, 60);
+}
+
+floatingBox.onclick = () => {
+    screenOpenBox.classList.add("hidden");
+    screen4.classList.remove("hidden");
+    startMusic();
+    reveal();
+};
+
+function spawnGlitter() {
+    const container = document.getElementById("textBox");
+    const colors = ["#ffffff","#ffb6d9","#ff7eb3","#ffe0ef","#ffc2dc","#fff5f8"];
+    setInterval(() => {
+        if(screen4.classList.contains("hidden")) return;
+        const g = document.createElement("div");
+        g.className = "glitter";
+        g.style.left = (10 + Math.random() * 80) + "%";
+        g.style.top = (10 + Math.random() * 80) + "%";
+        g.style.background = colors[Math.floor(Math.random() * colors.length)];
+        g.style.width = g.style.height = (3 + Math.random() * 5) + "px";
+        g.style.animationDuration = (0.8 + Math.random() * 1.2) + "s";
+        g.style.boxShadow = `0 0 5px 2px ${colors[Math.floor(Math.random()*colors.length)]}`;
+        container.appendChild(g);
+        setTimeout(() => g.remove(), 2000);
+    }, 80);
+}
+
+function spawnDatePetals(containerId) {
+    const container = document.getElementById(containerId);
+    const colors = ["rgba(255,182,213,0.7)","rgba(255,255,255,0.8)","rgba(255,126,179,0.6)","rgba(255,224,239,0.9)"];
+    for (let i = 0; i < 25; i++) {
+        const p = document.createElement("div");
+        p.className = "date-petal";
+        const sz = 3 + Math.random() * 6;
+        p.style.width = p.style.height = sz + "px";
+        p.style.left = Math.random() * 100 + "%";
+        p.style.top = Math.random() * 100 + "%";
+        p.style.background = colors[Math.floor(Math.random() * colors.length)];
+        p.style.boxShadow = `0 0 ${sz * 2}px ${sz}px ${colors[Math.floor(Math.random()*colors.length)]}`;
+        p.style.animationDuration = (3 + Math.random() * 4) + "s";
+        p.style.animationDelay = (Math.random() * 5) + "s";
+        container.appendChild(p);
+    }
+}
+
+function startFirecrackers() {
+    const fireInterval = setInterval(() => {
+        if(screen4.classList.contains("hidden")) clearInterval(fireInterval);
+        createFirework(Math.random() * window.innerWidth, Math.random() * window.innerHeight);
+    }, 450);
+}
+
+function createFirework(x, y) {
+    const count = 12;
+    for (let i = 0; i < count; i++) {
+        const f = document.createElement('div');
+        f.className = 'firework';
+        f.style.left = x + 'px';
+        f.style.top = y + 'px';
+        f.style.background = `hsl(${Math.random() * 360}, 100%, 60%)`;
+        document.body.appendChild(f);
+        const angle = (Math.PI * 2 / count) * i;
+        const v = 60 + Math.random() * 60;
+        f.animate([
+            { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+            { transform: `translate(${Math.cos(angle)*v}px, ${Math.sin(angle)*v}px) scale(0)`, opacity: 0 }
+        ], { duration: 1000 }).onfinish = () => f.remove();
+    }
+}
+
+function spawnHearts() {
+    setInterval(() => {
+        if(screen4.classList.contains("hidden")) return;
+        const h = document.createElement('div');
+        h.className = 'heart-particle';
+        h.innerHTML = '❤';
+        const rect = textBox.getBoundingClientRect();
+        h.style.left = (rect.left + Math.random() * rect.width) + 'px';
+        h.style.top = (rect.top + rect.height/2) + 'px';
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), 3000);
     }, 400);
 }
-</script>
 
+function reveal() {
+    const boxes = document.querySelectorAll(".box");
+    const grid = document.getElementById("gridReveal");
+
+    boxes.forEach((box, i) => setTimeout(() => box.classList.add("show"), i * 300));
+
+    setTimeout(() => {
+        grid.classList.add("fade-out");
+        textBox.classList.add("show");
+        spawnGlitter();
+        startFirecrackers();
+        spawnHearts();
+    }, 2500);
+
+    setTimeout(() => {
+        screen4.classList.add("hidden");
+        screen5.classList.remove("hidden");
+        setTimeout(() => {
+            finalText.classList.add("fadeIn");
+            setTimeout(() => youWord.classList.add("animate"), 1000);
+        }, 500);
+    }, 10000);
+}
+</script>
 </body>
 </html>
