@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Premium Cinematic Birthday Experience</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:ital,wght@0,300;0,500;1,300;1,500&display=swap" rel="stylesheet">
 <style>
@@ -17,8 +18,8 @@
 
 * { font-style: italic; }
 body { margin:0; overflow:hidden; background:black; font-family:'Poppins'; color:white; }
-.screen { position:absolute; inset:0; transition:1.5s cubic-bezier(0.4,0,0.2,1); display:flex; align-items:center; justify-content:center; }
-.hidden { opacity:0; pointer-events:none; }
+.screen { position:absolute; inset:0; transition:opacity 1.5s cubic-bezier(0.4,0,0.2,1); display:flex; align-items:center; justify-content:center; background:black; }
+.hidden { opacity:0; pointer-events:none; visibility:hidden; }
 
 /* ===== SCREEN 1 BACKGROUND ===== */
 #screen1 {
@@ -58,7 +59,7 @@ body { margin:0; overflow:hidden; background:black; font-family:'Poppins'; color
     50% { opacity: 0.6; transform: translateY(-15px) scale(1); }
 }
 
-/* ===== BACKGROUND WORDS — reduced size & simplified animation ===== */
+/* ===== BACKGROUND WORDS ===== */
 .bg-word {
     position: absolute;
     font-family: 'Playfair Display';
@@ -119,115 +120,185 @@ body { margin:0; overflow:hidden; background:black; font-family:'Poppins'; color
     100% { transform: scale(1); opacity: 0.9; }
 }
 
-/* ===== CINEMATIC START BUTTON ===== */
+/* ===== DOOR ===== */
+#doorWrapper {
+    display: none;
+    position: relative;
+    z-index: 3;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    animation: doorAppear 1.2s cubic-bezier(0.16,1,0.3,1) 0.2s forwards;
+}
+
+@keyframes doorAppear {
+    0%   { opacity: 0; transform: scale(0.7) translateY(40px); filter: blur(16px); }
+    60%  { opacity: 1; filter: blur(0); }
+    80%  { transform: scale(1.03) translateY(-4px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.door-scene {
+    width: 200px;
+    height: 300px;
+    position: relative;
+    perspective: 900px;
+}
+
+.door-frame {
+    position: absolute;
+    inset: 0;
+    border: 3px solid var(--gold-light);
+    border-radius: 10px 10px 4px 4px;
+    box-shadow:
+        0 0 30px rgba(200,150,12,0.5),
+        0 0 80px rgba(200,150,12,0.15),
+        inset 0 0 20px rgba(200,150,12,0.08);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.door-frame::before {
+    content: '';
+    position: absolute;
+    top: -22px; left: -3px;
+    width: calc(100% + 6px);
+    height: 44px;
+    border: 3px solid var(--gold-light);
+    border-bottom: none;
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    box-shadow: 0 0 20px rgba(200,150,12,0.4);
+}
+
+.door-panel {
+    position: absolute;
+    inset: 0;
+    border-radius: 8px 8px 2px 2px;
+    background: linear-gradient(160deg,
+        rgba(40,25,5,0.97) 0%,
+        rgba(25,15,3,0.98) 40%,
+        rgba(50,30,8,0.95) 100%);
+    transform-origin: left center;
+    transform-style: preserve-3d;
+    transition: transform 1.2s cubic-bezier(0.4,0,0.2,1);
+    z-index: 2;
+    overflow: hidden;
+}
+
+.door-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        180deg,
+        transparent 0px,
+        transparent 18px,
+        rgba(200,150,12,0.04) 18px,
+        rgba(200,150,12,0.04) 19px
+    );
+}
+
+.door-panel::after {
+    content: '';
+    position: absolute;
+    top: 14%; left: 12%; right: 12%; bottom: 14%;
+    border: 1.5px solid rgba(200,150,12,0.3);
+    border-radius: 4px;
+    box-shadow: inset 0 0 12px rgba(200,150,12,0.08);
+}
+
+.door-knob {
+    position: absolute;
+    right: 22px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, var(--gold-shine), var(--gold), #7a5a00);
+    box-shadow: 0 0 8px rgba(200,150,12,0.7), 0 2px 4px rgba(0,0,0,0.5);
+    z-index: 3;
+}
+
+.door-glow {
+    position: absolute;
+    inset: 0;
+    border-radius: 8px;
+    background: radial-gradient(ellipse at 50% 50%,
+        rgba(255,220,100,0.6) 0%,
+        rgba(200,150,12,0.3) 40%,
+        transparent 75%);
+    opacity: 0;
+    transition: opacity 0.6s ease 0.5s;
+    z-index: 0;
+}
+
+.door-scene.open .door-panel {
+    transform: rotateY(-105deg);
+}
+
+.door-scene.open .door-glow {
+    opacity: 1;
+}
+
+.door-rays {
+    position: absolute;
+    inset: 0;
+    border-radius: 8px;
+    background: repeating-conic-gradient(
+        from 270deg at 50% 120%,
+        rgba(255,220,80,0.12) 0deg,
+        transparent 8deg,
+        rgba(255,220,80,0.08) 12deg,
+        transparent 18deg
+    );
+    opacity: 0;
+    transition: opacity 0.8s ease 0.7s;
+    z-index: 0;
+}
+
+.door-scene.open .door-rays { opacity: 1; }
+
 #startBtn {
-    padding: 24px 70px;
+    margin-top: 28px;
+    padding: 13px 44px;
     background: transparent;
-    border: none;
-    color: transparent;
-    border-radius: 60px;
+    border: 1.5px solid var(--gold-light);
+    color: var(--gold-shine);
+    border-radius: 40px;
     cursor: pointer;
-    letter-spacing: 14px;
+    letter-spacing: 8px;
     text-transform: uppercase;
     font-family: 'Playfair Display';
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 700;
     font-style: italic;
     position: relative;
     z-index: 3;
-    opacity: 0;
-    animation: btnCinematicEntry 2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
-    will-change: transform, opacity;
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 0 20px rgba(200,150,12,0.25), inset 0 0 12px rgba(200,150,12,0.06);
+    transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    overflow: hidden;
 }
 
-@keyframes btnCinematicEntry {
-    0%   { opacity: 0; transform: scale(0.4) translateY(60px); filter: blur(20px); }
-    40%  { opacity: 1; filter: blur(0px); }
-    70%  { transform: scale(1.06) translateY(-6px); }
-    100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
-}
-
-/* rotating conic gradient ring */
 #startBtn::before {
     content: '';
     position: absolute;
-    inset: -6px;
-    border-radius: 70px;
-    background: conic-gradient(
-        from 0deg,
-        var(--gold-shine),
-        var(--gold-light),
-        #fff5c0,
-        var(--gold),
-        var(--gold-shine),
-        var(--gold-light),
-        var(--gold-shine)
-    );
-    animation: ringRotate 3s linear infinite, ringBreathe 2s ease-in-out infinite alternate;
-    z-index: -2;
-    filter: blur(2px);
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(200,150,12,0.12), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
 }
 
-@keyframes ringRotate {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
-}
-
-@keyframes ringBreathe {
-    0%   { opacity: 0.55; inset: -4px; filter: blur(1px); }
-    100% { opacity: 1;    inset: -10px; filter: blur(5px); }
-}
-
-/* dark glass inner fill + shimmer text via ::after */
-#startBtn::after {
-    content: 'Let\'s Start';
-    position: absolute;
-    inset: 2px;
-    border-radius: 58px;
-    background: linear-gradient(135deg, rgba(8,4,0,0.94) 0%, rgba(25,14,0,0.90) 50%, rgba(8,4,0,0.94) 100%);
-    backdrop-filter: blur(12px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Playfair Display';
-    font-size: 20px;
-    font-weight: 700;
-    font-style: italic;
-    letter-spacing: 14px;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    background-image: linear-gradient(90deg,
-        var(--gold) 0%,
-        var(--gold-shine) 20%,
-        #ffffff 40%,
-        var(--gold-shine) 60%,
-        var(--gold-light) 80%,
-        var(--gold) 100%
-    );
-    background-size: 250%;
-    animation: textShimmerSlide 2.5s linear infinite;
-    z-index: -1;
-}
-
-@keyframes textShimmerSlide {
-    0%   { background-position: 200% center; }
-    100% { background-position: -200% center; }
-}
-
-#startBtn:hover::before {
-    animation: ringRotate 0.8s linear infinite, ringBreathe 0.6s ease-in-out infinite alternate;
-    filter: blur(8px);
-}
+#startBtn:hover::before { transform: translateX(100%); }
 
 #startBtn:hover {
-    transform: scale(1.07) translateY(-5px);
+    box-shadow: 0 0 40px rgba(200,150,12,0.6), 0 0 80px rgba(200,150,12,0.2);
+    border-color: var(--gold-shine);
+    color: #fff;
+    transform: translateY(-3px) scale(1.05);
 }
 
-#startBtn:active {
-    transform: scale(0.96) translateY(0);
-}
+#startBtn:active { transform: scale(0.97); }
 
 /* ===== MEDITATION SLIDE ===== */
 #screenMeditation { background: black; overflow: hidden; }
@@ -272,13 +343,14 @@ body { margin:0; overflow:hidden; background:black; font-family:'Poppins'; color
     100% { opacity: 1; transform: translateY(0) scaleX(1); filter: blur(0); }
 }
 
+/* FIX: Button appears after 3s instead of 4.2s */
 #medContinueBtn {
     margin-top: 50px; padding: 15px 40px; background: transparent;
     border: 2px solid rgba(255,255,255,0.3); color: rgba(255,255,255,0.5);
     border-radius: 50px; cursor: pointer; letter-spacing: 5px;
     text-transform: uppercase; font-family: 'Playfair Display'; font-size: 12px;
     font-weight: 600; transition: all 0.5s cubic-bezier(0.34,1.56,0.64,1);
-    opacity: 0; animation: btnFadeInMed 1s ease-out 4.2s forwards;
+    opacity: 0; animation: btnFadeInMed 1s ease-out 3s forwards;
 }
 
 @keyframes btnFadeInMed { to { opacity: 1; } }
@@ -442,9 +514,9 @@ body { margin:0; overflow:hidden; background:black; font-family:'Poppins'; color
 
 #precapBtn:hover::before { left: 130%; }
 
-/* ===== DATE SCREENS — white & pink palette ===== */
+/* ===== DATE SCREENS ===== */
 #screenDateBack, #screenDateFwd {
-    background: #0d0810; overflow: hidden; flex-direction: column;
+    background: #0d0810; overflow: hidden; flex-direction: column; z-index: 10;
 }
 
 .date-bg {
@@ -470,12 +542,6 @@ body { margin:0; overflow:hidden; background:black; font-family:'Poppins'; color
     20%  { opacity: 1; }
     80%  { opacity: 0.8; }
     100% { transform: translateY(-60px) translateX(20px) scale(1.2); opacity: 0; }
-}
-
-.timeline-line {
-    position: absolute; top: 50%; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,182,213,0.3), rgba(255,255,255,0.6), rgba(255,182,213,0.3), transparent);
-    transform: translateY(-50%);
 }
 
 .date-label {
@@ -562,7 +628,7 @@ body { margin:0; overflow:hidden; background:black; font-family:'Poppins'; color
     transform: translateY(-3px);
 }
 
-/* ===== SLIDES ===== */
+/* ===== SLIDES + SLIDE COUNTER ===== */
 #screen3 { background: black; }
 
 .slide {
@@ -572,6 +638,21 @@ body { margin:0; overflow:hidden; background:black; font-family:'Poppins'; color
 }
 
 .slide.active { opacity: 1; transform: scale(1) !important; transition: opacity 2s ease-in-out; }
+
+/* FIX: Slide counter */
+#slideCounter {
+    position: absolute;
+    bottom: 28px;
+    right: 32px;
+    z-index: 10;
+    font-family: 'Playfair Display';
+    font-style: italic;
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,0.5);
+    text-shadow: 0 0 10px rgba(0,0,0,0.8);
+    transition: opacity 0.5s;
+}
 
 /* ===== FLOATING OPEN BOX ===== */
 #screenOpenBox {
@@ -690,7 +771,7 @@ body { margin:0; overflow:hidden; background:black; font-family:'Poppins'; color
 
 .box img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-/* ===== BIRTHDAY TEXT — white & pink palette ===== */
+/* ===== BIRTHDAY TEXT ===== */
 .overlay-container {
     position: absolute; padding: 50px 100px;
     background: rgba(255, 255, 255, 0.08);
@@ -777,14 +858,50 @@ body { margin:0; overflow:hidden; background:black; font-family:'Poppins'; color
     color: white; opacity: 0; text-align: left; line-height: 1.4;
 }
 
+/* FIX: Softer, slower beat animation */
 .highlight { display: inline-block; color: #ff9ecf; font-style: italic; }
-.highlight.animate { animation: beat 1s infinite; }
+.highlight.animate { animation: beat 1.5s ease-in-out infinite; }
 
-@keyframes beat { 50%{transform:scale(1.2);} }
+@keyframes beat {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+}
 
 .fadeIn { animation: fade 2s forwards; }
 
 @keyframes fade { to{opacity:1;transform:translateY(0);} }
+
+/* ===== REPLAY BUTTON on final screen ===== */
+#replayBtn {
+    position: absolute;
+    bottom: 28px;
+    right: 32px;
+    padding: 12px 32px;
+    background: transparent;
+    border: 1px solid rgba(255,182,213,0.45);
+    color: rgba(255,182,213,0.7);
+    border-radius: 30px;
+    cursor: pointer;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-family: 'Playfair Display';
+    font-style: italic;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 1s ease, border-color 0.4s, color 0.4s, box-shadow 0.4s, transform 0.3s;
+    z-index: 10;
+}
+
+#replayBtn.show {
+    opacity: 1;
+}
+
+#replayBtn:hover {
+    border-color: #ff9ecf;
+    color: #ff9ecf;
+    box-shadow: 0 0 20px rgba(255,120,180,0.4);
+    transform: translateY(-2px);
+}
 </style>
 </head>
 <body>
@@ -793,8 +910,18 @@ body { margin:0; overflow:hidden; background:black; font-family:'Poppins'; color
     <div id="goldParticles"></div>
     <div id="bgWords"></div>
     <div style="text-align:center;position:relative;z-index:2;">
-        <div id="countdown">5</div>
-        <button id="startBtn" style="display:none" aria-label="Let's Start"></button>
+        <div id="countdown"></div>
+        <div id="doorWrapper">
+            <div class="door-scene" id="doorScene">
+                <div class="door-glow"></div>
+                <div class="door-rays"></div>
+                <div class="door-frame"></div>
+                <div class="door-panel">
+                    <div class="door-knob"></div>
+                </div>
+            </div>
+            <button id="startBtn">Open</button>
+        </div>
     </div>
 </div>
 
@@ -833,7 +960,10 @@ body { margin:0; overflow:hidden; background:black; font-family:'Poppins'; color
     <div class="date-subtitle">rewinding to where it all began</div>
 </div>
 
-<div id="screen3" class="screen hidden"></div>
+<!-- FIX: Added slide counter element -->
+<div id="screen3" class="screen hidden">
+    <div id="slideCounter"></div>
+</div>
 
 <div id="screenDateFwd" class="screen hidden">
     <div class="date-bg"></div>
@@ -878,6 +1008,8 @@ body { margin:0; overflow:hidden; background:black; font-family:'Poppins'; color
         All the Very Best.<br>
         Thank <span class="highlight" id="youWord">you</span> for everything.
     </div>
+    <!-- FIX: Replay button -->
+    <button id="replayBtn">↺ &nbsp;Replay</button>
 </div>
 
 <script>
@@ -900,15 +1032,15 @@ const textBox = document.getElementById("textBox");
 const finalText = document.getElementById("finalText");
 const youWord = document.getElementById("youWord");
 const floatingBox = document.getElementById("floatingBox");
+const replayBtn = document.getElementById("replayBtn");
 
-/* LIGHTWEIGHT GOLD PARTICLES — reduced count */
+/* GOLD PARTICLES */
 function spawnGoldParticles() {
     const container = document.getElementById("goldParticles");
     container.style.position = "absolute";
     container.style.inset = "0";
     container.style.pointerEvents = "none";
     container.style.zIndex = "1";
-
     for (let i = 0; i < 18; i++) {
         const p = document.createElement("div");
         p.className = "gold-particle";
@@ -924,7 +1056,7 @@ function spawnGoldParticles() {
 }
 spawnGoldParticles();
 
-/* BACKGROUND WORDS — reduced size, simplified float, fewer at once */
+/* BACKGROUND WORDS */
 const bgWords = document.getElementById("bgWords");
 bgWords.style.position = "absolute";
 bgWords.style.inset = "0";
@@ -934,13 +1066,14 @@ bgWords.style.zIndex = "1";
 const wordList = [
     "P wants to become PB, but B want to become BB finally P becomes PP",
     "THALA is fan of MSD, friend of OCD",
-    "THALA rejected RUKUMINI VASANTHA proposal",
+    "THALA rejected RUKMINI VASANTHA proposal",
     "GOPIKA alias mallu won miss universe.",
     "Government to declare 28th april as OCD day.",
     "Meditation shree became chairman of hindu community",
     "Police are searching for senior tester and junior developer.",
     "Sarvesh became first scientist in mars",
-    "THALA welcomes all girls to join BJP"
+    "THALA welcomes all girls to join BJP",
+    "Sugar aapuko bagupadatav"
 ];
 
 let activeWordCount = 0;
@@ -949,22 +1082,15 @@ const MAX_WORDS = 3;
 function spawnWord() {
     if (activeWordCount >= MAX_WORDS) return;
     activeWordCount++;
-
     const el = document.createElement("div");
     el.className = "bg-word";
     el.innerText = wordList[Math.floor(Math.random() * wordList.length)];
-
     el.style.left = (5 + Math.random() * 60) + "vw";
-
-    // Increased font size by 30%
-    el.style.fontSize = (18.2 + Math.random() * 15.6) + "px";
-
+    el.style.fontSize = (21.84 + Math.random() * 18.72) + "px";
     const dur = 12 + Math.random() * 8;
     el.style.animationDuration = dur + "s";
     el.style.animationDelay = (Math.random() * 2) + "s";
-
     bgWords.appendChild(el);
-
     setTimeout(() => {
         el.remove();
         activeWordCount--;
@@ -1087,18 +1213,14 @@ function buildDateRoller(containerId) {
     return { setDate };
 }
 
-/* ====================================================
-   COUNTDOWN TARGET — change this to reschedule:
-   - Today at 9:30 PM  → year:2026, month:3 (April=3), day:26, hour:21, min:30
-   - Next day 9:30 PM  → change day:26 to day:27  (and update month/year if needed)
-   ==================================================== */
+/* COUNTDOWN TARGET */
 function getTarget() {
     const t = new Date();
     t.setFullYear(2026);
-    t.setMonth(3);   // 3 = April (0-indexed)
-    t.setDate(26);   // 28th
-    t.setHours(21);   // 12:00 AM midnight
-    t.setMinutes(50);
+    t.setMonth(3);    // April
+    t.setDate(27);
+    t.setHours(17);
+    t.setMinutes(11);
     t.setSeconds(0);
     t.setMilliseconds(0);
     return t;
@@ -1106,28 +1228,8 @@ function getTarget() {
 
 function showStartButton() {
     countdown.style.display = "none";
-    startBtn.style.display = "inline-block";
-    setTimeout(() => {
-        [0, 400, 800].forEach(delay => {
-            setTimeout(() => {
-                const r = document.createElement('div');
-                r.className = 'ring-ripple';
-                startBtn.appendChild(r);
-                setTimeout(() => r.remove(), 1900);
-            }, delay);
-        });
-        setInterval(() => {
-            if (startBtn.style.display === 'none') return;
-            [0, 350, 700].forEach(d => {
-                setTimeout(() => {
-                    const r = document.createElement('div');
-                    r.className = 'ring-ripple';
-                    startBtn.appendChild(r);
-                    setTimeout(() => r.remove(), 1900);
-                }, d);
-            });
-        }, 3000);
-    }, 300);
+    const doorWrapper = document.getElementById("doorWrapper");
+    doorWrapper.style.display = "flex";
 }
 
 function formatCountdown(ms) {
@@ -1141,7 +1243,6 @@ function formatCountdown(ms) {
     return `${s}`;
 }
 
-// Make countdown text smaller when showing h/m/s format
 countdown.style.fontSize = "100px";
 countdown.style.letterSpacing = "0px";
 
@@ -1164,7 +1265,6 @@ const timer = setInterval(() => {
         void countdown.offsetWidth;
         countdown.classList.add("pulse-anim");
 
-        // When ≤5 seconds left, go big again
         const secsLeft = Math.floor(diff / 1000);
         if (secsLeft <= 5) {
             countdown.style.fontSize = "200px";
@@ -1177,10 +1277,32 @@ const timer = setInterval(() => {
     }
 }, 500);
 
+/* FIX: Music starts on meditation screen (gentle fade-in), not on box click */
+const bgMusic = new Audio();
+bgMusic.src = "1.mp3";
+bgMusic.loop = true;
+bgMusic.volume = 0;
+
+function startMusic() {
+    bgMusic.play().catch(() => {});
+    let vol = 0;
+    const fadeIn = setInterval(() => {
+        vol = Math.min(vol + 0.015, 0.85);
+        bgMusic.volume = vol;
+        if (vol >= 0.85) clearInterval(fadeIn);
+    }, 80);
+}
+
 startBtn.onclick = () => {
-    clearInterval(wordSpawner);
-    screen1.classList.add("hidden");
-    screenMeditation.classList.remove("hidden");
+    const doorScene = document.getElementById("doorScene");
+    doorScene.classList.add("open");
+    startBtn.disabled = true;
+    startBtn.style.opacity = "0.4";
+    setTimeout(() => {
+        clearInterval(wordSpawner);
+        screen1.classList.add("hidden");
+        screenMeditation.classList.remove("hidden");
+    }, 1400);
 };
 
 medContinueBtn.onclick = () => {
@@ -1253,6 +1375,8 @@ precapBtn.onclick = () => {
 };
 
 const imgs = ["img8.jpg","img10.jpg","img12.jpg","img11.jpg","img9.jpg"];
+
+/* FIX: startSlides now updates the counter */
 function startSlides() {
     imgs.forEach(src => {
         const im = document.createElement("img");
@@ -1262,14 +1386,19 @@ function startSlides() {
         screen3.appendChild(im);
     });
     const slides = document.querySelectorAll(".slide");
+    const counter = document.getElementById("slideCounter");
     let current = 0;
+
     function showNext() {
         if(current > 0) slides[current-1].classList.remove("active");
         if(current < slides.length) {
             slides[current].classList.add("active");
+            // Update counter
+            counter.innerText = `${current + 1} / ${slides.length}`;
             current++;
             setTimeout(showNext, 3500);
         } else {
+            counter.style.opacity = "0";
             screen3.classList.add("hidden");
             screenDateFwd.classList.remove("hidden");
             spawnDateStars("dateFwdStars");
@@ -1313,25 +1442,6 @@ nextBtn.onclick = () => {
     screenOpenBox.classList.remove("hidden");
     spawnOpenBoxStars();
 };
-
-/* ===== BIRTHDAY MUSIC ===== */
-/* 🎵 To use your own file: replace the src below with your filename,
-   e.g. src="birthday_song.mp3" — place the file next to this HTML */
-const bgMusic = new Audio();
-bgMusic.src = "1.mp3"; // placeholder — swap with your file
-bgMusic.loop = true;
-bgMusic.volume = 0;
-
-function startMusic() {
-    bgMusic.play().catch(() => {}); // silently handle autoplay block
-    // Fade in over 3 seconds
-    let vol = 0;
-    const fadeIn = setInterval(() => {
-        vol = Math.min(vol + 0.02, 0.85);
-        bgMusic.volume = vol;
-        if (vol >= 0.85) clearInterval(fadeIn);
-    }, 60);
-}
 
 floatingBox.onclick = () => {
     screenOpenBox.classList.add("hidden");
@@ -1419,15 +1529,24 @@ function reveal() {
     const boxes = document.querySelectorAll(".box");
     const grid = document.getElementById("gridReveal");
 
-    boxes.forEach((box, i) => setTimeout(() => box.classList.add("show"), i * 300));
+    boxes.forEach((box, i) => {
+        setTimeout(() => {
+            box.classList.add("show");
+        }, i * 2000);
+    });
+
+    const totalImageTime = boxes.length * 2000 + 1000;
 
     setTimeout(() => {
-        grid.classList.add("fade-out");
         textBox.classList.add("show");
         spawnGlitter();
         startFirecrackers();
         spawnHearts();
-    }, 2500);
+    }, totalImageTime);
+
+    setTimeout(() => {
+        grid.classList.add("fade-out");
+    }, totalImageTime + 3000);
 
     setTimeout(() => {
         screen4.classList.add("hidden");
@@ -1435,9 +1554,16 @@ function reveal() {
         setTimeout(() => {
             finalText.classList.add("fadeIn");
             setTimeout(() => youWord.classList.add("animate"), 1000);
+            // FIX: Show replay button after a pause
+            setTimeout(() => replayBtn.classList.add("show"), 3500);
         }, 500);
-    }, 10000);
+    }, totalImageTime + 10500);
 }
+
+/* FIX: Replay button — reload page to restart */
+replayBtn.onclick = () => {
+    window.location.reload();
+};
 </script>
 </body>
 </html>
